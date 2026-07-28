@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Editar Perfil - VMACIEL</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#050505;color:#fff;font-family:Inter,sans-serif}
+.top{height:120px;background:linear-gradient(135deg,#FFD700 0%,#FF8C00 50%,#ff2d55 100%)}
+.container{max-width:560px;margin:-55px auto 0;padding:0 16px 40px}
+.card{background:#141414;border:1px solid #222;border-radius:20px;padding:24px}
+.avatar-wrap{position:relative;width:100px;height:100px;margin:0 auto 10px}
+.avatar{width:100px;height:100px;border-radius:50%;border:4px solid #141414;object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#000;background:linear-gradient(135deg,#FFD700,#FF8C00)}
+.edit-photo{position:absolute;right:0;bottom:0;width:32px;height:32px;border-radius:50%;background:#FFD700;border:2px solid #141414;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#000;font-size:14px}
+h1{font-family:Cinzel,serif;text-align:center;margin:8px 0 2px;font-size:22px}
+.sub{color:#777;text-align:center;font-size:12px;margin-bottom:14px}
+.badge-publico{display:block;text-align:center;margin:0 auto 14px;width:fit-content;background:rgba(0,255,100,.12);border:1px solid rgba(0,255,100,.25);color:#5eff8a;font-size:10px;font-weight:800;padding:5px 14px;border-radius:20px;letter-spacing:.8px}
+.view-mode{display:none}
+.view-mode.active{display:block}
+.edit-mode.hidden{display:none}
+.view-card{text-align:center}
+.view-username{color:#FFD700;font-weight:800;margin-top:4px}
+.view-bio{color:#aaa;font-size:13px;margin-top:10px;line-height:1.4;white-space:pre-wrap}
+.view-loc{color:#666;font-size:12px;margin-top:8px}
+.edit-float{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:#1e1e1e;border:1px solid #333;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#FFD700;font-size:16px;z-index:5}
+.card{position:relative}
+label{font-size:11px;color:#999;letter-spacing:.8px;text-transform:uppercase;margin:18px 0 6px;display:block;font-weight:700}
+.obrig{color:#ff6b6b;font-size:10px} .opc{color:#555;font-size:10px;text-transform:none}
+input,textarea{width:100%;background:#0F0F0F;border:1px solid #2a2a2a;border-radius:12px;padding:13px 14px;color:#fff;font-size:14px;outline:none;font-family:Inter}
+input:focus,textarea:focus{border-color:#FFD700}
+textarea{height:80px;resize:none}
+.hint{font-size:11px;color:#666;margin-top:6px}
+.hint.warn{color:#ff6b6b}.hint.ok{color:#5eff8a}
+.chip{background:#1f1f1f;border:1px solid #333;border-radius:20px;padding:6px 12px;font-size:12px;cursor:pointer;color:#FFD700;display:inline-block;margin:4px 4px 0 0}
+.row{display:flex;gap:12px;margin-top:26px}
+.btn{flex:1;border:0;border-radius:12px;padding:14px;font-weight:800;cursor:pointer;font-size:13px}
+.btn-gold{background:linear-gradient(135deg,#FFD700,#FFA500);color:#000}
+.btn-ghost{background:#1e1e1e;color:#fff;border:1px solid #2a2a2a}
+.btn-google{width:100%;margin-top:10px;background:#fff;color:#000;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:12px;font-weight:700;cursor:pointer;border:0}
+.sep{margin:22px 0 10px;border-top:1px solid #222;padding-top:16px;font-size:11px;color:#FFD700;letter-spacing:1px;font-weight:800}
+.msg{margin-top:14px;text-align:center;font-size:13px;padding:10px;border-radius:10px;display:none}
+.msg.show{display:block}.msg.ok{background:rgba(0,255,100,.08);color:#5eff8a;border:1px solid rgba(0,255,100,.2)}.msg.err{background:rgba(255,50,50,.08);color:#ff6b6b;border:1px solid rgba(255,50,50,.2)}
+</style>
+</head>
+<body>
+<div class="top"></div>
+<div class="container">
+<div class="card">
+
+<!-- MODO VISUALIZAÇÃO (só o que editou + lápis) -->
+<div id="viewMode" class="view-mode">
+<!-- lapis removido - REGRA: nao subir no card dos usuarios -->
+<div class="avatar-wrap">
+<img id="viewAvatarImg" class="avatar" style="display:none">
+<div id="viewAvatarLetter" class="avatar">?</div>
+</div>
+<h1 id="viewDisplayName">MEU PERFIL</h1>
+<span class="badge-publico">PERFIL PÚBLICO</span>
+<div id="viewUsername" class="view-username"></div>
+<div id="viewBio" class="view-bio"></div>
+<div id="viewLoc" class="view-loc"></div>
+<div class="sub" style="margin-top:18px">Seu perfil aparece no feed. Senha é privada.</div>
+</div>
+
+<!-- MODO EDIÇÃO -->
+<div id="editMode" class="edit-mode">
+<div class="avatar-wrap">
+<img id="avatarImg" class="avatar" style="display:none">
+<div id="avatarLetter" class="avatar">?</div>
+<label class="edit-photo" for="photoInput">📷</label>
+<input type="file" id="photoInput" accept="image/*" style="display:none">
+</div>
+<h1 id="displayName">MEU PERFIL</h1>
+<span class="badge-publico">PERFIL PÚBLICO</span>
+<div class="sub">Seu perfil aparece no feed. Senha é privada, só pra sua segurança.</div>
+
+<div id="loginStatus" class="hint" style="text-align:center;color:#FFD700"></div>
+
+<label>Foto de perfil <span class="opc">(opcional)</span></label>
+<div class="hint">Clique na câmera 📷 para subir foto (fica salvo no seu navegador)</div>
+
+<label>Nome de exibição <span class="opc">(opcional)</span></label>
+<input id="name" placeholder="Ex: João Silva" maxlength="30">
+
+<label>@Username - identidade única <span class="opc">(opcional)</span></label>
+<input id="username" placeholder="ex: joaosilva" maxlength="20">
+<div class="hint" id="userHint">Se escolher @, verificamos se já existe e sugerimos variações</div>
+<div id="suggestBox"></div>
+
+<label>Bio <span class="opc">(opcional)</span></label>
+<textarea id="bio" placeholder="Seu som, sua história..." maxlength="150"></textarea>
+<div class="hint"><span id="bioCount">0</span>/150</div>
+
+<div class="sep">🔐 ACESSO OBRIGATÓRIO</div>
+
+<label>E-mail <span class="obrig">* obrigatório se não tiver telefone/Google</span></label>
+<input id="email" type="email" placeholder="seu@email.com">
+
+<label>Telefone <span class="opc">(opcional, vale como login)</span></label>
+<input id="phone" type="tel" placeholder="(11) 99999-9999">
+
+<label>Senha <span class="obrig">* OBRIGATÓRIA - senha é privada, só pra sua segurança</span></label>
+<input id="pass" type="password" placeholder="Mínimo 6 caracteres">
+
+<button class="btn-google" onclick="loginGoogle()"> <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Entrar com Google (conta como login obrigatório)</button>
+<div id="googleStatus" class="hint" style="text-align:center;margin-top:8px"></div>
+
+<label style="margin-top:18px">Localização <span class="opc">(opcional)</span></label>
+<input id="location" placeholder="São Paulo, BR">
+
+<div class="row">
+<button class="btn btn-ghost" onclick="location.href='/'">CANCELAR</button>
+<button class="btn btn-gold" onclick="salvar()">SALVAR PERFIL</button>
+</div>
+
+<div id="msg" class="msg"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+const TAKEN=["joao","maria","pedro","lucas","vitor","admin","vmaciel","joaosilva","test","teste"];
+function getUser(){ try{return JSON.parse(localStorage.getItem('vmaciel_user')||'null')}catch{return null} }
+function loadTaken(){ try{return JSON.parse(localStorage.getItem('vmaciel_all_usernames')||'[]')}catch{return []} }
+function saveTaken(l){ localStorage.setItem('vmaciel_all_usernames', JSON.stringify(l)); }
+
+let user=getUser();
+let googleEmail=localStorage.getItem('vmaciel_google_email')||'';
+
+function showPhoto(src){ const img=document.getElementById('avatarImg'); if(img){img.src=src; img.style.display='block';} const l=document.getElementById('avatarLetter'); if(l) l.style.display='none'; 
+  const vImg=document.getElementById('viewAvatarImg'); if(vImg){vImg.src=src; vImg.style.display='block';} const vL=document.getElementById('viewAvatarLetter'); if(vL) vL.style.display='none';
+}
+function showLetter(n){ const ch=(n||'U').charAt(0).toUpperCase();
+  const l=document.getElementById('avatarLetter'); if(l){l.textContent=ch; l.style.display='flex';} const i=document.getElementById('avatarImg'); if(i) i.style.display='none';
+  const vl=document.getElementById('viewAvatarLetter'); if(vl){vl.textContent=ch; vl.style.display='flex';} const vi=document.getElementById('viewAvatarImg'); if(vi) vi.style.display='none';
+}
+function mostrarView(){
+  document.getElementById('editMode').classList.add('hidden');
+  document.getElementById('viewMode').classList.add('active');
+  const u=getUser(); if(!u) return;
+  const photo=localStorage.getItem('vmaciel_user_photo')||u.photo;
+  if(photo) showPhoto(photo); else if(u.name) showLetter(u.name);
+  document.getElementById('viewDisplayName').textContent=(u.name||'MEU PERFIL').toUpperCase();
+  document.getElementById('viewUsername').textContent=u.username?'@'+u.username:'';
+  document.getElementById('viewBio').textContent=u.bio||'';
+  document.getElementById('viewLoc').textContent=u.location||'';
+}
+function entrarEdicao(){
+  document.getElementById('viewMode').classList.remove('active');
+  document.getElementById('editMode').classList.remove('hidden');
+  updateStatus(); checkUsername();
+}
+function init(){
+  document.getElementById('bio').addEventListener('input', e=>document.getElementById('bioCount').textContent=e.target.value.length);
+  document.getElementById('username').addEventListener('input', checkUsername);
+  document.getElementById('name').addEventListener('input', e=>{document.getElementById('displayName').textContent=(e.target.value||'MEU PERFIL').toUpperCase(); if(e.target.value) showLetter(e.target.value);});
+  document.getElementById('email').addEventListener('input', updateStatus);
+  document.getElementById('phone').addEventListener('input', updateStatus);
+  document.getElementById('pass').addEventListener('input', updateStatus);
+  if(user){
+    document.getElementById('name').value=user.name||'';
+    document.getElementById('username').value=user.username||'';
+    document.getElementById('bio').value=user.bio||'';
+    document.getElementById('email').value=user.email||localStorage.getItem('vmaciel_user_email')||'';
+    document.getElementById('phone').value=user.phone||'';
+    document.getElementById('location').value=user.location||'';
+    document.getElementById('pass').value=user.pass||'';
+    document.getElementById('displayName').textContent=(user.name||'MEU PERFIL').toUpperCase();
+    document.getElementById('bioCount').textContent=(user.bio||'').length;
+    const photo=localStorage.getItem('vmaciel_user_photo')||user.photo;
+    if(photo) showPhoto(photo); else if(user.name) showLetter(user.name);
+    // se já tem perfil salvo, mostra modo view limpo (sem avisos)
+    const hasLogin = (user.email||user.phone||user.googleEmail||localStorage.getItem('vmaciel_google_email'));
+    const hasPass = user.pass && user.pass.length>=6;
+    if(hasLogin && hasPass){
+      mostrarView(); return;
+    }
+  }
+  updateStatus(); checkUsername();
+}
+function updateStatus(){
+  const email=document.getElementById('email').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const pass=document.getElementById('pass').value.trim();
+  const hasLogin=email||phone||googleEmail||localStorage.getItem('vmaciel_google_email');
+  const el=document.getElementById('loginStatus');
+  if(!hasLogin) el.textContent='⚠️ Precisa e-mail, telefone ou Google';
+  else if(!pass) el.textContent='⚠️ Senha obrigatória (pra sua segurança)';
+  else el.textContent='✅ Pronto para salvar - perfil público + senha privada';
+}
+function checkUsername(){
+  const input=document.getElementById('username');
+  const hint=document.getElementById('userHint');
+  const box=document.getElementById('suggestBox');
+  let val=input.value.toLowerCase().trim().replace(/[^a-z0-9_.]/g,''); input.value=val;
+  if(!val){ hint.textContent='Opcional - mas se colocar, garantimos identidade única'; hint.className='hint'; box.innerHTML=''; return; }
+  const all=[...TAKEN, ...loadTaken()].map(s=>s.toLowerCase());
+  const cur=(user&&user.username||'').toLowerCase();
+  if(all.includes(val) && val!==cur){
+    hint.textContent='⚠️ @'+val+' já em uso! Esse ponto de divergência garante identidade única. Escolha variação:';
+    hint.className='hint warn';
+    const base=val.replace(/[_\.0-9]+$/,'');
+    const sug=[base+'_'+Math.floor(Math.random()*90+10), base+'.oficial', base+'_'+new Date().getFullYear(), 'o.'+base, base+'vmaciel'];
+    box.innerHTML=''; sug.forEach(s=>{ const c=document.createElement('span'); c.className='chip'; c.textContent='@'+s; c.onclick=()=>{ input.value=s; checkUsername(); updateStatus(); }; box.appendChild(c); });
+  }else{ hint.textContent='✅ @'+val+' disponível - identidade única garantida!'; hint.className='hint ok'; box.innerHTML=''; }
+}
+document.getElementById('photoInput').addEventListener('change', e=>{
+  const file=e.target.files[0]; if(!file) return;
+  if(file.size>3*1024*1024) return alert('Máx 3MB');
+  const r=new FileReader(); r.onload=ev=>{ const d=ev.target.result; localStorage.setItem('vmaciel_user_photo', d); showPhoto(d); }; r.readAsDataURL(file);
+});
+function loginGoogle(){
+  const email=prompt('Simulação Google - digite Gmail:'); if(!email||!email.includes('@')) return;
+  localStorage.setItem('vmaciel_google_email', email); googleEmail=email;
+  document.getElementById('googleStatus').textContent='✅ Google: '+email;
+  if(!document.getElementById('email').value) document.getElementById('email').value=email;
+  updateStatus(); msg('Google conectado!',true);
+}
+function salvar(){
+  const name=document.getElementById('name').value.trim();
+  const username=document.getElementById('username').value.trim().toLowerCase();
+  const bio=document.getElementById('bio').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const pass=document.getElementById('pass').value.trim();
+  const locationV=document.getElementById('location').value.trim();
+  const gEmail=localStorage.getItem('vmaciel_google_email')||googleEmail;
+
+  if(!email && !phone && !gEmail) return msg('OBRIGATÓRIO: e-mail, telefone ou Google',false);
+  if(email && !email.includes('@')) return msg('E-mail inválido',false);
+  if(!pass) return msg('Senha é OBRIGATÓRIA - só pra sua segurança!',false);
+  if(pass.length<6) return msg('Senha mínimo 6 caracteres (pra sua segurança)',false);
+
+  if(username){
+    const all=[...TAKEN, ...loadTaken()].map(s=>s.toLowerCase());
+    const cur=(user&&user.username||'').toLowerCase();
+    if(all.includes(username) && username!==cur) return msg('Esse @ já existe! Clique em uma sugestão.',false);
+  }
+
+  const novo={...(user||{}), name, username, bio, email:email||gEmail||'', phone, pass, location:locationV, photo:localStorage.getItem('vmaciel_user_photo')||user?.photo||'', googleEmail:gEmail};
+  localStorage.setItem('vmaciel_user', JSON.stringify(novo));
+  if(email) localStorage.setItem('vmaciel_user_email', email);
+  if(username){ let list=loadTaken(); if(!list.includes(username)) {list.push(username); saveTaken(list);} }
+
+  user=novo;
+  // após salvar, some avisos e botão e mostra só o editado + lápis
+  setTimeout(()=>{ mostrarView(); }, 400);
+  msg('✅ Perfil salvo! Perfil público + senha privada. '+(username?'@'+username+' identidade única garantida.':'perfil público criado.'),true);
+}
+function msg(t,ok){ const el=document.getElementById('msg'); el.textContent=t; el.className='msg show '+(ok?'ok':'err'); }
+
+init();
+</script>
+</body>
+</html>
