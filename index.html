@@ -2090,6 +2090,8 @@ function vmacielApplyLang(code){
   window.vmacielUpdateCredits=function(v){localStorage.setItem('vmaciel_credits',v); n.textContent=v.toLocaleString('pt-BR');};
 })();
 
+  }
+})();
 </script>
 
 <script>
@@ -3660,43 +3662,52 @@ console.log('🔧 FIX GERA MUSICA REAL v51 ATIVADO');
 (function(){
   let generating = false;
 
-  // FUNÇÃO QUE REALMENTE PEGA A LETRA EDITÁVEL
+  // FUNÇÃO QUE REALMENTE PEGA A LETRA EDITÁVEL - V98.1 FIX LETRA VAZIA
   function getLetraEditavelReal(){
-    // 1 - Tenta pegar por IDs comuns
-    let candidates = [
-      document.getElementById('lyricsArea'),
-      document.getElementById('letraEditavel'),
-      document.getElementById('letra-editavel'),
-      document.getElementById('editableLyrics'),
-      document.querySelector('textarea[placeholder*="LETRA" i]'),
-      document.querySelector('textarea[placeholder*="edit" i]'),
-      document.getElementById('pagina-criar-musica-com-voz')?.querySelector('textarea'),
-    ];
-    // 2 - Todas as textareas da página - pega a maior que contém "alegria" ou mais de 50 chars
+    // Pega TODAS as textareas visíveis da página
     const allTextareas = document.querySelectorAll('textarea');
-    allTextareas.forEach(t => candidates.push(t));
-    
-    // Filtra a melhor
     let melhor = '';
-    for(let el of candidates){
-      if(!el) continue;
-      let val = (el.value || el.innerText || '').trim();
-      if(!val) continue;
-      // Ignora a letra triste bugada
-      if(val.toLowerCase().includes('cruz pesada')) continue;
-      if(val.length > melhor.length) melhor = val;
-      // Se achar a letra feliz, usa na hora
-      if(val.toLowerCase().includes('alegria de viver')) {
+    let debug = [];
+    allTextareas.forEach((t,i)=>{
+      const val = (t.value || '').trim();
+      const isVisible = t.offsetParent !== null;
+      debug.push(`ta[${i}] vis=${isVisible} len=${val.length} txt=${val.substring(0,30)}`);
+      if(val.length > melhor.length && val.length > 10){
+        // NÃO ignora mais cruz pesada, pega qualquer coisa que o usuário escreveu
         melhor = val;
-        break;
       }
+    });
+    console.log('🔍 DEBUG textareas:', debug);
+    console.log('🔍 Melhor letra encontrada:', melhor.substring(0,100));
+
+    // Se ainda não achou, tenta div contenteditable
+    if(!melhor || melhor.length < 10){
+      document.querySelectorAll('[contenteditable="true"]').forEach(div=>{
+        const val = (div.innerText||'').trim();
+        if(val.length > melhor.length) melhor = val;
+      });
     }
+    
+    // Último recurso: pega do localStorage
+    if(!melhor || melhor.length < 10){
+      try{
+        const saved = localStorage.getItem('vmaciel_ultima_letra');
+        if(saved && saved.length > melhor.length) melhor = saved;
+      }catch(e){}
+    }
+
     return melhor;
   }
 
   function getTituloReal(){
     const titleEl = document.getElementById('titleInput') || document.querySelector('input[placeholder*="título" i]') || document.querySelector('input[placeholder*="titulo" i]');
     return (titleEl?.value || 'A Alegria de Viver').trim() || 'A Alegria de Viver';
+  }
+
+  function allTextareasDebug(){
+    try{
+      return Array.from(document.querySelectorAll('textarea')).map((t,i)=>`[${i}]:${(t.value||'').length} chars vis=${t.offsetParent!==null}`).join(' | ');
+    }catch(e){return 'erro debug';}
   }
 
   function getEstiloReal(){
@@ -3713,13 +3724,10 @@ console.log('🔧 FIX GERA MUSICA REAL v51 ATIVADO');
     console.log('🎵 LETRA FINAL QUE VAI PRA SUNO:', letraFinal.substring(0,150));
 
     if(!letraFinal || letraFinal.length < 20){
-      alert('Escreva sua letra na LETRA EDITÁVEL primeiro! Não pode estar vazia.');
+      alert('Escreva sua letra na LETRA EDITÁVEL primeiro! Não pode estar vazia. Debug: encontrei '+allTextareasDebug());
       return;
     }
-    if(letraFinal.toLowerCase().includes('cruz pesada')){
-      alert('Essa letra "cruz pesada" está bugada. Por favor, apague e cole de novo a letra feliz "A alegria de viver..." na LETRA EDITÁVEL.');
-      return;
-    }
+    // removido bloqueio cruz pesada - agora aceita qualquer letra
 
     generating = true;
     const btn = document.getElementById('genMusicBtn');
