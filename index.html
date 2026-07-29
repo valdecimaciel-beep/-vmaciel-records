@@ -2823,91 +2823,53 @@ input:-webkit-autofill:focus {
 })();
 </script>
 
-<!-- V40.2 TRAVA SEMANTICA INJETADO NA MAQUINA COMPLETA - NAO APAGA MAQUINA -->
+<!-- V40.2 DESATIVADO - V11 FIX DEFINITIVO SEM INVASÃO - by Muse -->
 <script>
-console.log('V40.2 MAQUINA INICIANDO');
+console.log('V11 FIX DEFINITIVO - V40.2 DESATIVADO, SUA IDEIA PROTEGIDA');
 (function(){
-const gabaritosTravados = {
-  dor: [
-    {kw1_list:["coração","peito"], kw2_list:["amor","dor"], linhas:["Deixei esse {cena} guardado no fundo do meu {kw1}","Fingindo que não dói mas sangra no meu {kw1}","Ainda carrego no peito esse velho {kw2}","Que não me deixa dormir, só aumenta o {kw2}"]},
-    {kw1_list:["chão","meu chão"], kw2_list:["fervor","amor"], linhas:["Três da manhã e esse {cena} no meu {kw1}","O frio lá fora não esfria meu {kw1}","Se é pra doer, que doa com {kw2}","Mas não me deixa sem teu {kw2}"]},
-    {kw1_list:["papo real","amor real"], kw2_list:["dor","amor"], linhas:["Olhei pro celular esperando teu {kw1}","Nada de mensagem, nada de {kw1}","Só esse {cena} me fazendo sentir {kw2}","Uma saudade que vira {kw2}"]},
-    {kw1_list:["coração"], kw2_list:["vida","ferida","despedida"], linhas:["Era teu {cena} que iluminava meu {kw1}","Hoje é só silêncio ecoando no meu {kw1}","Você levou embora minha {kw2}","E deixou pra trás só essa {kw2}"]}
-  ],
-  fe: [
-    {kw1_list:["luz","cruz"], kw2_list:["glória","vitória"], linhas:["Mesmo na {cena} eu enxerguei a {kw1}","Quando tudo era escuro veio a {kw1}","Deus reescreveu minha {kw2}","Com tinta de {kw2}"]}
-  ],
-  festa: [
-    {kw1_list:["chão","sertão"], kw2_list:["amor","fervor"], linhas:["O {cena} chegou e a galera foi pro {kw1}","Ninguém fica parado nesse nosso {kw1}","Quando o grave bate forte tudo {kw2}","E a noite inteira {kw2}"]}
-  ]
-};
+const gabaritosTravados = { dor: [], fe: [], festa: [] }; // desativado
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function gerarMaquinaV402(){
-  // pega cena do input da máquina
-  let cenaInput = document.querySelector('input[placeholder*="cruz" i], input[placeholder*="CENA" i], input[type="text"]');
-  let cenaRaw = "cruz pesada";
-  if(cenaInput && cenaInput.value) cenaRaw = cenaInput.value;
-  // tenta pegar do window.re que é a cena global da máquina
-  try{ if(window.re && window.re.length>0) cenaRaw = window.re; }catch(e){}
-  const cena = cenaRaw.toLowerCase().trim().split(" ").slice(0,2).join(" ");
-
-  // detecta estilo
-  let estilo = "dor";
+  console.log('🚫 V40.2 antigo bloqueado, usando V11 novo');
+  // V11: Pega SUA IDEIA e formata para LETRA EDITÁVEL sem apagar nada
   try{
-    const hash = window.location.hash || "";
-    if(hash.includes("fe")) estilo="fe";
-    if(hash.includes("festa")) estilo="festa";
-    // tenta pegar do estado da máquina
-    if(window.Ze) estilo = window.Ze || "dor";
-  }catch(e){}
-
-  const lista = gabaritosTravados[estilo] || gabaritosTravados.dor;
-  const idxs=[];
-  while(idxs.length<3){ let r=Math.floor(Math.random()*lista.length); if(!idxs.includes(r)) idxs.push(r); }
-  let final="";
-  const titulos=["[Verso 1 - Extended, slow start, 20 seconds]","[Refrão - Full, emotional, long]","[Verso 2]"];
-  idxs.forEach((gi,vi)=>{
-    const gab=lista[gi];
-    const kw1=pick(gab.kw1_list);
-    const kw2=pick(gab.kw2_list);
-    const linhas=gab.linhas.map(l=>l.replaceAll("{cena}",cena).replaceAll("{kw1}",kw1).replaceAll("{kw2}",kw2));
-    final+=titulos[vi]+"\n"+linhas.join("\n")+"\n\n";
-  });
-  final=final.trim();
-
-  // INJETA NA MÁQUINA - SÓ NA SUA IDEIA, NUNCA NA LETRA EDITÁVEL!
-  const textareas = document.querySelectorAll('textarea');
-  // Identifica qual é a SUA IDEIA (primeira) e qual é LETRA EDITÁVEL (segunda)
-  textareas.forEach((ta, idx)=>{
-    const label = (ta.placeholder||'').toLowerCase();
-    const isLetraEditavel = label.includes('editável') || label.includes('editable') || ta.id.toLowerCase().includes('editavel') || idx === 1;
-    // Se for letra editável, NUNCA sobrescreve!
-    if(isLetraEditavel){
-      console.log('🔒 Protegido LETRA EDITÁVEL, não sobrescrevendo', idx);
-      return;
+    const allTA = document.querySelectorAll('textarea');
+    let suaIdeiaTA = allTA[0];
+    let letraEditavelTA = allTA[1];
+    // Tenta identificar melhor por placeholder
+    allTA.forEach((ta,i)=>{
+      const ph = (ta.placeholder||'').toLowerCase();
+      if(ph.includes('ideia')) suaIdeiaTA = ta;
+      if(ph.includes('edit')) letraEditavelTA = ta;
+    });
+    const ideia = (suaIdeiaTA?.value || '').trim();
+    if(!ideia || ideia.length < 10){
+      if(window.toast) window.toast('Escreva sua ideia primeiro!');
+      return ideia;
     }
-    // Só sobrescreve SUA IDEIA (idx 0 ou placeholder ideia)
-    if(idx === 0 || label.includes('ideia') || label.includes('idea')){
-      ta.value = final;
-      ta.dispatchEvent(new Event('input',{bubbles:true}));
-      ta.dispatchEvent(new Event('change',{bubbles:true}));
-      console.log('✅ V40.2 escreveu só em SUA IDEIA');
+    // Se a ideia já é a letra feliz, só copia formatada para LETRA EDITÁVEL
+    // Não gera mais "cruz pesada"
+    let letraFormatada = ideia;
+    // Se não tem quebras, cria verso/refrão simples a partir da ideia
+    if(!ideia.includes('[Verso') && !ideia.includes('[Refrão')){
+      // Mantém a ideia exatamente como o usuário escreveu, só adiciona estrutura se for longa
+      if(ideia.length > 100){
+        const meio = Math.floor(ideia.length/2);
+        letraFormatada = `[Verso 1]\n${ideia.substring(0,meio)}\n\n[Refrão]\n${ideia.substring(meio)}\n\n[Verso 2]\n${ideia}`;
+      }
     }
-  });
-
-  // NUNCA escreve em contenteditable se for letra editável
-  // Removido o trecho que invadia letra editável
-
-  // Se a máquina tem função setState f, chama
-  try{
-    // procura React fiber
-    const possibleSetters = Object.keys(window).filter(k=>k.startsWith('__react'));
-    // tenta forçar update no localStorage que a máquina usa
-    localStorage.setItem('vmaciel_ultima_letra', final);
-  }catch(e){}
-
-  console.log('✅ V40.2 MAQUINA GEROU:', cena, final.slice(0,60));
-  return final;
+    // Escreve APENAS na LETRA EDITÁVEL, NUNCA na SUA IDEIA
+    if(letraEditavelTA && letraEditavelTA !== suaIdeiaTA){
+      letraEditavelTA.value = letraFormatada;
+      letraEditavelTA.dispatchEvent(new Event('input',{bubbles:true}));
+      letraEditavelTA.dispatchEvent(new Event('change',{bubbles:true}));
+      console.log('✅ V11 escreveu SÓ na LETRA EDITÁVEL:', letraFormatada.substring(0,80));
+      if(window.toast) window.toast('✅ Letra gerada na LETRA EDITÁVEL!');
+      // Salva
+      try{ localStorage.setItem('vmaciel_ultima_letra', letraFormatada); }catch(e){}
+    }
+    return letraFormatada;
+  }catch(e){ console.error('Erro V11', e); return ''; }
 }
 
 function ligarMaquina(){
@@ -2915,7 +2877,7 @@ function ligarMaquina(){
     const txt=(btn.textContent||"").toUpperCase();
     if(txt.includes('GERAR LETRA') && !btn._v402){
       btn._v402=true;
-      console.log('Ligando botão GERAR LETRA da máquina ao V40.2', btn);
+      console.log('Ligando botão GERAR LETRA V11', btn);
       btn.addEventListener('click', function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -2926,9 +2888,9 @@ function ligarMaquina(){
 }
 
 setInterval(ligarMaquina, 800);
-window.addEventListener('load', ()=>{ setTimeout(()=>{ ligarMaquina(); /* não gera auto mais pra não invadir letra editável */ }, 1000); });
+window.addEventListener('load', ()=>{ setTimeout(()=>{ ligarMaquina(); }, 1000); });
 window.gerarMaquinaV402 = gerarMaquinaV402;
-console.log('✅ V40.2 injetado na máquina completa - não apaga máquina');
+console.log('✅ V11 ATIVO - SUA IDEIA PROTEGIDA, LETRA EDITÁVEL RECEBE');
 })();
 </script>
 
