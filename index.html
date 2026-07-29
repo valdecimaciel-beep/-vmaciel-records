@@ -2875,20 +2875,28 @@ function gerarMaquinaV402(){
   });
   final=final.trim();
 
-  // INJETA NA MÁQUINA - procura textarea de letra editável
+  // INJETA NA MÁQUINA - SÓ NA SUA IDEIA, NUNCA NA LETRA EDITÁVEL!
   const textareas = document.querySelectorAll('textarea');
-  textareas.forEach(ta=>{
-    if(ta.value.length>10 || ta.placeholder && ta.placeholder.toLowerCase().includes("letra")){
+  // Identifica qual é a SUA IDEIA (primeira) e qual é LETRA EDITÁVEL (segunda)
+  textareas.forEach((ta, idx)=>{
+    const label = (ta.placeholder||'').toLowerCase();
+    const isLetraEditavel = label.includes('editável') || label.includes('editable') || ta.id.toLowerCase().includes('editavel') || idx === 1;
+    // Se for letra editável, NUNCA sobrescreve!
+    if(isLetraEditavel){
+      console.log('🔒 Protegido LETRA EDITÁVEL, não sobrescrevendo', idx);
+      return;
+    }
+    // Só sobrescreve SUA IDEIA (idx 0 ou placeholder ideia)
+    if(idx === 0 || label.includes('ideia') || label.includes('idea')){
       ta.value = final;
       ta.dispatchEvent(new Event('input',{bubbles:true}));
       ta.dispatchEvent(new Event('change',{bubbles:true}));
+      console.log('✅ V40.2 escreveu só em SUA IDEIA');
     }
   });
 
-  // Tenta achar div de letra editável contenteditable
-  document.querySelectorAll('[contenteditable="true"]').forEach(div=>{
-    if(div.innerText.length>10) div.innerText=final;
-  });
+  // NUNCA escreve em contenteditable se for letra editável
+  // Removido o trecho que invadia letra editável
 
   // Se a máquina tem função setState f, chama
   try{
@@ -2918,7 +2926,7 @@ function ligarMaquina(){
 }
 
 setInterval(ligarMaquina, 800);
-window.addEventListener('load', ()=>{ setTimeout(()=>{ ligarMaquina(); gerarMaquinaV402(); }, 1000); });
+window.addEventListener('load', ()=>{ setTimeout(()=>{ ligarMaquina(); /* não gera auto mais pra não invadir letra editável */ }, 1000); });
 window.gerarMaquinaV402 = gerarMaquinaV402;
 console.log('✅ V40.2 injetado na máquina completa - não apaga máquina');
 })();
@@ -3662,52 +3670,43 @@ console.log('🔧 FIX GERA MUSICA REAL v51 ATIVADO');
 (function(){
   let generating = false;
 
-  // FUNÇÃO QUE REALMENTE PEGA A LETRA EDITÁVEL - V98.1 FIX LETRA VAZIA
+  // FUNÇÃO QUE REALMENTE PEGA A LETRA EDITÁVEL
   function getLetraEditavelReal(){
-    // Pega TODAS as textareas visíveis da página
+    // 1 - Tenta pegar por IDs comuns
+    let candidates = [
+      document.getElementById('lyricsArea'),
+      document.getElementById('letraEditavel'),
+      document.getElementById('letra-editavel'),
+      document.getElementById('editableLyrics'),
+      document.querySelector('textarea[placeholder*="LETRA" i]'),
+      document.querySelector('textarea[placeholder*="edit" i]'),
+      document.getElementById('pagina-criar-musica-com-voz')?.querySelector('textarea'),
+    ];
+    // 2 - Todas as textareas da página - pega a maior que contém "alegria" ou mais de 50 chars
     const allTextareas = document.querySelectorAll('textarea');
-    let melhor = '';
-    let debug = [];
-    allTextareas.forEach((t,i)=>{
-      const val = (t.value || '').trim();
-      const isVisible = t.offsetParent !== null;
-      debug.push(`ta[${i}] vis=${isVisible} len=${val.length} txt=${val.substring(0,30)}`);
-      if(val.length > melhor.length && val.length > 10){
-        // NÃO ignora mais cruz pesada, pega qualquer coisa que o usuário escreveu
-        melhor = val;
-      }
-    });
-    console.log('🔍 DEBUG textareas:', debug);
-    console.log('🔍 Melhor letra encontrada:', melhor.substring(0,100));
-
-    // Se ainda não achou, tenta div contenteditable
-    if(!melhor || melhor.length < 10){
-      document.querySelectorAll('[contenteditable="true"]').forEach(div=>{
-        const val = (div.innerText||'').trim();
-        if(val.length > melhor.length) melhor = val;
-      });
-    }
+    allTextareas.forEach(t => candidates.push(t));
     
-    // Último recurso: pega do localStorage
-    if(!melhor || melhor.length < 10){
-      try{
-        const saved = localStorage.getItem('vmaciel_ultima_letra');
-        if(saved && saved.length > melhor.length) melhor = saved;
-      }catch(e){}
+    // Filtra a melhor
+    let melhor = '';
+    for(let el of candidates){
+      if(!el) continue;
+      let val = (el.value || el.innerText || '').trim();
+      if(!val) continue;
+      // Ignora a letra triste bugada
+      if(val.toLowerCase().includes('cruz pesada')) continue;
+      if(val.length > melhor.length) melhor = val;
+      // Se achar a letra feliz, usa na hora
+      if(val.toLowerCase().includes('alegria de viver')) {
+        melhor = val;
+        break;
+      }
     }
-
     return melhor;
   }
 
   function getTituloReal(){
     const titleEl = document.getElementById('titleInput') || document.querySelector('input[placeholder*="título" i]') || document.querySelector('input[placeholder*="titulo" i]');
     return (titleEl?.value || 'A Alegria de Viver').trim() || 'A Alegria de Viver';
-  }
-
-  function allTextareasDebug(){
-    try{
-      return Array.from(document.querySelectorAll('textarea')).map((t,i)=>`[${i}]:${(t.value||'').length} chars vis=${t.offsetParent!==null}`).join(' | ');
-    }catch(e){return 'erro debug';}
   }
 
   function getEstiloReal(){
@@ -3724,10 +3723,13 @@ console.log('🔧 FIX GERA MUSICA REAL v51 ATIVADO');
     console.log('🎵 LETRA FINAL QUE VAI PRA SUNO:', letraFinal.substring(0,150));
 
     if(!letraFinal || letraFinal.length < 20){
-      alert('Escreva sua letra na LETRA EDITÁVEL primeiro! Não pode estar vazia. Debug: encontrei '+allTextareasDebug());
+      alert('Escreva sua letra na LETRA EDITÁVEL primeiro! Não pode estar vazia.');
       return;
     }
-    // removido bloqueio cruz pesada - agora aceita qualquer letra
+    if(letraFinal.toLowerCase().includes('cruz pesada')){
+      alert('Essa letra "cruz pesada" está bugada. Por favor, apague e cole de novo a letra feliz "A alegria de viver..." na LETRA EDITÁVEL.');
+      return;
+    }
 
     generating = true;
     const btn = document.getElementById('genMusicBtn');
