@@ -1548,7 +1548,6 @@ let P=L?`${E}, remix v3, creative`:E,M=$m(i||"Sertanejo Sofrência"),re=`${M}${P
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){ closeMenu(); document.body.classList.remove('mostrando-pagina-fora'); document.querySelectorAll('.vmaciel-pagina').forEach(function(p){p.classList.remove('ativa');}); var cf=document.getElementById('vmaciel-paginas-fora'); if(cf) cf.style.display='none'; }});
   if(searchInput&&list){
     const items = list.querySelectorAll('.vmaciel-accordion-item');
-    const allBtns = list.querySelectorAll('.vmaciel-menu-btn-skeleton, .vmaciel-sub-btn');
     function filter(term){
       const t = term.toLowerCase().trim();
       clearBtn.classList.toggle('show', t.length>0);
@@ -1582,70 +1581,46 @@ let P=L?`${E}, remix v3, creative`:E,M=$m(i||"Sertanejo Sofrência"),re=`${M}${P
 })();
 </script>
 
-window.vmacielIrParaPagina = function(nome, parentArg){
-  function norm(s){
-    return (s||'').toString().toLowerCase()
-      .replace(/[áàâãä]/g,'a').replace(/[éèêë]/g,'e').replace(/[íìîï]/g,'i').replace(/[óòôõö]/g,'o').replace(/[úùûü]/g,'u').replace(/ç/g,'c')
-      .replace(/[^a-z0-9-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+<script>
+window.vmacielIrParaPagina = function(nome, parentArg){ 
+  function norm(s){ 
+    return (s||"").toString().toLowerCase()
+      .replace(/[áàãâä]/g,'a')
+      .replace(/[éèêë]/g,'e')
+      .replace(/[íìîï]/g,'i')
+      .replace(/[óòõôö]/g,'o')
+      .replace(/[úùûü]/g,'u')
+      .replace(/ç/g,'c')
+      .replace(/[^a-z0-9]+/g,'-')
+      .replace(/-+/g,'-')
+      .replace(/^-|-$/g,''); 
+  } 
+  var parent = norm(parentArg||""); 
+  var n = norm(nome||""); 
+  var id = 'pagina-' + n;
+
+  if(n.indexOf('inicio') > -1) id = 'pagina-dashboard';
+  if(n.indexOf('dashboard') > -1) id = 'pagina-dashboard';
+  if(n.indexOf('feed') > -1) id = 'pagina-feed';
+  if(n.indexOf('nova') > -1) id = 'pagina-nova-musica';
+  if(n.indexOf('minhas') > -1 && n.indexOf('musica') > -1) id = 'pagina-minhas-musicas';
+  if(n.indexOf('clonar') > -1 && n.indexOf('dentro') > -1) id = 'pagina-clonagem-voz';
+  if(n.indexOf('clonar') > -1 && n.indexOf('sua') > -1) id = 'pagina-clonar-sua-voz';
+  if(n.indexOf('minhas') > -1 && n.indexOf('voz') > -1) id = 'pagina-minhas-vozes';
+  if(n.indexOf('criar') > -1 && n.indexOf('musica') > -1 && n.indexOf('voz') > -1) id = 'pagina-criar-musica-com-voz';
+  if(n.indexOf('como') > -1 && n.indexOf('funciona') > -1 && n.indexOf('clonagem') > -1) id = 'pagina-como-funciona-clonagem';
+
+  var pag = document.getElementById(id);
+  if(pag) {
+    document.querySelectorAll('.vmaciel-pagina').forEach(p => p.classList.remove('ativa'));
+    pag.classList.add('ativa');
+    document.body.classList.add('mostrando-pagina-fora');
+    var cf = document.getElementById('vmaciel-paginas-fora');
+    if(cf) cf.style.display='block';
+    window.scrollTo({top:0, behavior:'smooth'});
   }
-  var parent = norm(parentArg||'');
-  var n = norm(nome||'');
-  var id='pagina-'+n;
-  if(n.indexOf('inicio')>-1) id='pagina-dashboard';
-  if(n.indexOf('dashboard')>-1) id='pagina-dashboard';
-  if(n.indexOf('feed')>-1) id='pagina-feed';
-  if(n.indexOf('nova')>-1) id='pagina-nova-musica';
-  if(n.indexOf('minhas')>-1 && n.indexOf('musica')>-1) id='pagina-minhas-musicas';
-  if(n.indexOf('minhas')>-1 && n.indexOf('musica')>-1) id='pagina-minhas-musicas';
-  if(n.indexOf('clonar')>-1 && n.indexOf('dentro')>-1) id='pagina-clonagem-voz';
-  if(n.indexOf('clonar')>-1 && n.indexOf('sua')>-1) id='pagina-clonar-sua-voz';
-  if(n.indexOf('minhas')>-1 && n.indexOf('voz')>-1) id='pagina-minhas-vozes';
-  if(n.indexOf('criar')>-1 && n.indexOf('musica')>-1 && n.indexOf('voz')>-1) id='pagina-criar-musica-com-voz';
-  if(n.indexOf('como')>-1 && n.indexOf('funciona')>-1 && n.indexOf('clonagem')>-1) id='pagina-como-funciona-clonagem';
-  if(n.indexOf('criar')>-1 && n.indexOf('videoclipe')>-1) id='pagina-criar-videoclipe';
-  if(n.indexOf('meus')>-1 && n.indexOf('videoclipe')>-1) id='pagina-meus-videoclipes';
-  if(n.indexOf('separar')>-1 && n.indexOf('stems')>-1) id='pagina-separar-stems';
-  if(n.indexOf('separad')>-1) id='pagina-musicas-separadas';
-  if(n.indexOf('musicas')>-1 && n.indexOf('separadas')>-1) id='pagina-musicas-separadas';
-  if(n.indexOf('musicas-separadas')>-1) id='pagina-musicas-separadas';
-  if(n.indexOf('versoes')>-1) id='pagina-studio-versoes';
-  if(n.indexOf('versoes')>-1 && n.indexOf('studio')>-1) id='pagina-studio-versoes';
-  if(n.indexOf('como-funciona')>-1 && parent.indexOf('studio')>-1) id='pagina-studio-como';
-  if(n.indexOf('lancar')>-1) id='pagina-lancar-musica';
-  if(n.indexOf('lancar-musica')>-1) id='pagina-lancar-musica';
-  if(n.indexOf('lancar')>-1 && n.indexOf('musica')>-1) id='pagina-lancar-musica';
-  if(n.indexOf('lancar-musica')>-1) id='pagina-lancar-musica';
-  if(n.indexOf('central')>-1 && n.indexOf('dist')>-1) id='pagina-central-dist';
-  if(n === 'servicos' || (n.indexOf('servi')>-1 && n.indexOf('solicitad')==-1)) id='pagina-servicos';
-  if(n.indexOf('solicitad')>-1) id='pagina-serv-solicitados';
-  if(n.indexOf('gravadora')>-1) id='pagina-minha-gravadora';
-  if(n.indexOf('como-funciona')>-1 && parent.indexOf('records')>-1) id='pagina-records-como';
-  if(n.indexOf('plano')>-1) id='pagina-planos';
-  if(n.indexOf('planos-e-creditos')>-1) id='pagina-planos-e-creditos';
-  if(n.indexOf('credit')>-1) id='pagina-creditos';
-  if(n.indexOf('planos-e-creditos')>-1) id='pagina-planos-e-creditos';
-  if(n.indexOf('extrato')>-1) id='pagina-extrato';
-  if(n.indexOf('royalt')>-1) id='pagina-royalties';
-  if(n.indexOf('indique')>-1) id='pagina-indique';
-  if(n.indexOf('indique-e-ganhe')>-1) id='pagina-indique';
-  if(n.indexOf('ajuda')>-1) id='pagina-ajuda';
+};
 
-  if(n.indexOf('meu-catalogo')>-1 || n.indexOf('meu')>-1 && n.indexOf('catalogo')>-1) id='pagina-meu-catalogo';
-  if(n.indexOf('plays')>-1 && n.indexOf('lojas')==-1 && n.indexOf('loja')==-1) id='pagina-plays';
-  if(n.indexOf('compartilhamento')>-1) id='pagina-compartilhamentos';
-  if(n.indexOf('curtida')>-1) id='pagina-curtidas';
-  if(n.indexOf('comentario')>-1) id='pagina-comentarios';
-  if(n.indexOf('saldo')>-1) id='pagina-saldo';
-  if(n.indexOf('ganhos')>-1) id='pagina-ganhos-totais';
-  if(n.indexOf('plays-lojas')>-1 || (n.indexOf('plays')>-1 && n.indexOf('lojas')>-1)) id='pagina-plays-lojas';
-  if(n.indexOf('indicaco')>-1 && n.indexOf('indique')==-1) id='pagina-indicacoes';
-
-  var c=document.getElementById('vmaciel-paginas-fora');
-  if(c) c.style.display='block';
-  document.querySelectorAll('.vmaciel-pagina').forEach(function(p){p.classList.remove('ativa');});
-  var alvo=document.getElementById(id);
-  if(alvo){alvo.classList.add('ativa');document.body.classList.add('mostrando-pagina-fora');var w=document.getElementById('vmaciel-menu-wrapper');if(w) w.classList.remove('open');var pp=document.getElementById('vmaciel-menu-panel');if(pp){pp.classList.remove('open');pp.classList.add('closed');}window.scrollTo({top:0,behavior:'smooth'});if(window.toast) window.toast('PAGINA: '+nome.toUpperCase()+' FORA');}
-}
 document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('btn-ir-clonar-voz')?.addEventListener('click', ()=>{window.vmacielIrParaPagina('clonar voz dentro');});
 });
