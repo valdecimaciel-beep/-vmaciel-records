@@ -1,4 +1,3 @@
-
 exports.handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -24,19 +23,19 @@ exports.handler = async (event, context) => {
       customMode: true,
       instrumental: !body.lyrics,
       model: 'V4_5',
-      callBackUrl: 'https://api.sunoapi.com/api/v1/callback'
+      wait_audio: false
     };
     
     const res = await fetch('https://api.sunoapi.com/api/v1/generate', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+      headers: { 'Content-Type': 'application/json', 'api-key': apiKey },
       body: JSON.stringify(payload)
     });
     const text = await res.text();
-    console.log('Suno response', res.status, text.slice(0,500));
+    console.log('Suno response', res.status, text.slice(0,1000));
     return { statusCode: res.status, headers, body: text };
   } catch (e) {
     console.error(e);
-    return { statusCode: 500, headers, body: JSON.stringify({error: e.message, stack: e.stack}) };
+    return { statusCode: 500, headers, body: JSON.stringify({error: e.message}) };
   }
 };
