@@ -1,1 +1,26 @@
-export default async (req)=>{try{const u=new URL(req.url);const id=u.searchParams.get("taskId")||u.searchParams.get("id");if(!id)return new Response(JSON.stringify({error:"taskId faltando"}),{status:400});const k=Netlify.env.get("SUNO_API_KEY");const r=await fetch(`https://api.sunoapi.org/api/v1/generate/${id}`,{headers:{"Authorization":`Bearer ${k}`}});const d=await r.text();return new Response(d,{status:r.status,headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"*"}})}catch(e){return new Response(JSON.stringify({error:e.message}),{status:500})}}
+
+exports.handler = async (event, context) => {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS, GET',
+    'Content-Type': 'application/json'
+  };
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
+  try {
+    const apiKey = process.env.SUNO_API_KEY;
+    if (!apiKey) return { statusCode: 500, headers, body: JSON.stringify({error:'Sem API KEY'}) };
+    const taskId = (event.queryStringParameters && event.queryStringParameters.taskId) || '';
+    if(!taskId) return { statusCode:400, headers, body: JSON.stringify({error:'Sem taskId'}) };
+    
+    const res = await fetch('https://api.sunoapi.com/api/v1/generate/record-info?taskId='+encodeURIComponent(taskId), {
+      headers: { 'Authorization': 'Bearer ' + apiKey }
+    });
+    const text = await res.text();
+    return { statusCode: res.status, headers, body: text };
+  } catch(e){
+    return { statusCode:500, headers, body: JSON.stringify({error:e.message}) };
+  }
+};
