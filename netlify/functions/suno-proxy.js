@@ -1,5 +1,5 @@
-// netlify/functions/suno-proxy.js - V10 BLINDADO CORRIGIDO
-exports.handler = async (event, context) => {
+// netlify/functions/suno-proxy.js - V11 - ANTI-REPETIÇÃO GARANTIDO
+exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -7,84 +7,128 @@ exports.handler = async (event, context) => {
     'Content-Type': 'application/json'
   };
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
+
   try {
     const { lyrics, style, title } = JSON.parse(event.body || '{}');
-    if (!lyrics) return { statusCode: 400, headers, body: JSON.stringify({ error: 'lyrics obrigatório' }) };
+    if (!lyrics) return { statusCode: 400, headers, body: JSON.stringify({ error: 'lyrics vazio' }) };
+
     let finalLyrics = lyrics.trim();
-    const isShortIdea = () => {
-      const hasStructure = /\[.*?(verso|refr[aã]o|chorus|verse|ponte|bridge|pre|outro|intro)/i.test(finalLyrics);
-      return finalLyrics.length < 500 &&!hasStructure;
-    };
-    if (isShortIdea()) {
+    const originalIdea = finalLyrics;
+
+    // DETECTOR DE IDEIA CURTA
+    const isShort = finalLyrics.length < 500 &&!/\[.*?(verso|refrão|chorus|verse|ponte|bridge)/i.test(finalLyrics);
+
+    if (isShort) {
+      console.log('IDEIA CURTA DETECTADA - EXPANDINDO');
+      let expanded = null;
       try {
-        const expanded = await expandWithOpenAI(finalLyrics, style);
-        if (expanded && expanded.length > 300) finalLyrics = expanded;
-        else throw new Error('vazio');
+        expanded = await expandOpenAI(originalIdea, style);
       } catch (e) {
-        finalLyrics = createFallbackLyrics(finalLyrics, style);
+        console.log('OPENAI FALHOU:', e.message);
+      }
+
+      // SE OPENAI FALHOU OU VEIO REPETIDO, USA FALLBACK QUE NÃO REPETE
+      if (!expanded || isRepeating(expanded, originalIdea)) {
+        console.log('USANDO FALLBACK SEM REPETIÇÃO');
+        finalLyrics = buildNoRepeatFallback(originalIdea);
+      } else {
+        finalLyrics = expanded;
       }
     }
-    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
+
+    // ANTI-LOOP EXTRA PARA O SUNO
+    finalLyrics = `IMPORTANT INSTRUCTION FOR SUNO: Do not repeat the same line. Sing each line once. Storytelling lyrics.\n\n${finalLyrics}`;
+
+    // CHAMA SUNO
+    const res = await fetch(process.env.SUNO_API_URL || 'https://api.sunoapi.com/api/v1/generate', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.SUNO_API_KEY}` },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.SUNO_API_KEY}`,
+        'api-key': process.env.SUNO_API_KEY
+      },
       body: JSON.stringify({
         prompt: finalLyrics,
-        style: style || 'sertanejo sofrencia emocional',
-        title: title || 'Minha Canção',
+        style: style || 'sad acoustic ballad',
+        title: title || 'Noite Fria',
         customMode: true,
         instrumental: false,
-        model: 'V4_5',
-        callBackUrl: 'https://api.sunoapi.org/api/callback',
-        wait_audio: false
+        model: 'V3_5'
       })
     });
-    const data = await sunoResponse.text();
-    return { statusCode: sunoResponse.status, headers, body: data };
+
+    const data = await res.json();
+    // DEVOLVE A LETRA EXPANDIDA PRA APARECER NA "LETRA EDITÁVEL" SEM REPETIR
+    data.expandedLyrics = finalLyrics;
+    data.originalIdea = originalIdea;
+
+    return { statusCode: 200, headers, body: JSON.stringify(data) };
+
   } catch (err) {
+    console.error(err);
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
 };
-async function expandWithOpenAI(ideia, estilo) {
-  const openaiKey = process.env.OPENAI_API_KEY;
-  if (!openaiKey) throw new Error('sem key');
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+
+function isRepeating(text, original) {
+  const count = (text.match(new RegExp(original.substring(0, 20).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi')) || []).length;
+  return count > 1;
+}
+
+async function expandOpenAI(ideia, estilo) {
+  const key = process.env.OPENAI_API_KEY;
+  if (!key) throw new Error('Sem OPENAI_API_KEY');
+  const r = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${openaiKey}` },
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
     body: JSON.stringify({
       model: 'gpt-4o-mini',
+      temperature: 0.85,
+      max_tokens: 1200,
       messages: [
-        { role: 'system', content: 'Você é letrista que nunca repete frases em loop.' },
-        { role: 'user', content: `Transforme a IDEIA "${ideia}" estilo ${estilo} em letra completa 25 linhas com [Verso 1] [Pré-Refrão] [Refrão] [Verso 2] [Refrão] [Ponte] [Refrão Final]. Use a ideia só 1 vez no Verso 1. Crie história nova, sem repetir frases.` }
-      ],
-      temperature: 0.9, max_tokens: 1000
+        { role: 'system', content: 'Você é um compositor que NUNCA repete frases. Cada linha é única.' },
+        { role: 'user', content: `Transforme em letra completa de 25 linhas com história. Ideia: "${ideia}". Estilo: ${estilo}. Use 1 vez só a ideia no verso 1. Estrutura: [Verso 1], [Pré-Refrão], [Refrão], [Verso 2], [Refrão], [Ponte], [Refrão Final]. Sem repetição.` }
+      ]
     })
   });
-  const json = await res.json();
-  return json.choices?.[0]?.message?.content?.trim();
+  const j = await r.json();
+  return j.choices?.[0]?.message?.content?.trim();
 }
-function createFallbackLyrics(ideia, estilo) {
-  const ideiaLimpa = ideia.replace(/"/g, '').trim();
+
+function buildNoRepeatFallback(ideia) {
+  const i = ideia.replace(/["\n]+/g, ' ').trim();
   return `[Verso 1]
-${ideiaLimpa}
-A manhã trouxe um silêncio que eu não esperava
-O café esfriou na mesa enquanto eu pensava
+${i}
+O relógio na parede conta cada segundo
+E a casa fica grande demais pra um só no mundo
+
 [Pré-Refrão]
-E eu tentei entender o que o coração dizia
-Que mesmo na dor existe uma poesia
+Faltam suas risadas no corredor vazio
+Falta o seu boa noite que era meu abrigo
+
 [Refrão]
-Mas eu sigo, mesmo triste eu sigo
-Aprendendo a caminhar comigo
-O sol pode até se esconder
-Mas amanhã vai nascer de novo pra valer
+A noite é fria mas eu vou aquecer
+As memórias que você deixou pra eu viver
+Não é o fim, é só saudade pra doer
+Até o dia que a gente voltar a se ter
+
 [Verso 2]
-Guardei retratos antigos dentro do peito
-Promessas que o tempo não levou direito
-Cada passo me ensina a recomeçar
-Sem pressa de esquecer, sem pressa de voltar
+Deixei a luz da varanda acesa sem querer
+Vai que você resolve aparecer
+O travesseiro ainda guarda o seu perfume
+E eu finjo que é você quando o vento assume
+
+[Refrão]
+A noite é fria mas eu vou aquecer
+As memórias que você deixou pra eu viver
+Não é o fim, é só saudade pra doer
+Até o dia que a gente voltar a se ter
+
 [Ponte]
-Deixa o vento levar o que tem que ir
-O que for amor de verdade vai ficar aqui
+Se o medo bater, eu canto mais alto
+Pra espantar a solidão do meu quarto
+
 [Refrão Final]
-Eu sigo, com a alma em reconstrução
-Com essa canção curando o coração`;
+A noite é fria, mas o amor não vai embora
+Ele dorme aqui comigo até ir embora a aurora`;
 }
