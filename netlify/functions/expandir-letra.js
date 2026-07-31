@@ -1,10 +1,37 @@
 exports.handler = async (event) => {
+  // Libera pra seu site chamar
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Content-Type": "application/json"
+  };
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers, body: "" };
+  }
+
   try {
-    const { frase1, frase2, estilo } = JSON.parse(event.body);
+    const body = JSON.parse(event.body || "{}");
+    const ideia = body.ideia || body.prompt || body.frase1 || "";
+    const titulo = body.titulo || "";
+    const estilo = body.estilo || "Sertanejo Sofrência";
 
-    const prompt = `Você é um compositor profissional. Crie uma letra COMPLETA de música no estilo ${estilo || 'sertanejo romântico'} usando como base essas duas ideias: "${frase1}" e "${frase2}". Crie versos, pré-refrão e refrão. Retorne só a letra.`;
+    if (!ideia) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: "Sem ideia" }) };
+    }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const promptSistema = `Você é o melhor compositor de ${estilo} do Brasil.
+    Pegue essa ideia simples: "${ideia}" ${titulo? `para a música "${titulo}"` : ""}
+    E transforme em uma LETRA COMPLETA e EMOCIONANTE.
+
+    REGRAS:
+    - Crie: Verso 1, Verso 2, Pré-refrão, Refrão (bem sofrido e chiclete), Ponte
+    - Use linguagem simples, do povo, que toca na sofrência
+    - Mantenha a ideia original
+    - Não explique nada, retorne SÓ A LETRA pronta`;
+
+    const resposta = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -12,23 +39,38 @@ exports.handler = async (event) => {
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.8
+        messages: [
+          { role: "system", content: promptSistema },
+          { role: "user", content: ideia }
+        ],
+        temperature: 0.85,
+        max_tokens: 800
       })
     });
 
-    const data = await response.json();
-    const letra = data.choices[0].message.content;
+    const dados = await resposta.json();
+
+    if (!dados.choices) {
+      throw new Error(JSON.stringify(dados));
+    }
+
+    const letraCompleta = dados.choices[0].message.content;
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ letra })
+      headers,
+      body: JSON.stringify({
+        sucesso: true,
+        letra: letraCompleta,
+        ideiaOriginal: ideia
+      })
     };
 
-  } catch (error) {
+  } catch (erro) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      headers,
+      body: JSON.stringify({ error: erro.message })
     };
   }
 };
