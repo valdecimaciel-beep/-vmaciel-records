@@ -1,0 +1,12 @@
+VMaciel Studio - Entrada Multilíngue
+=====================================
+- Header fixo
+- 4 idiomas: PT, EN, ES, FR (troca automática sem reload)
+- Cores ouro e negro
+- Logo VM substituído
+- Números trocados
+
+Para usar: abra index.html no navegador ou suba para seu domínio.
+Para restaurar: me mande este ZIP que eu retomo 100%.
+
+Criado em 2026 - VMaciel Studio
