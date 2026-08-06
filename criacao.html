@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Criação - VM IA</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/criacao.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
+<body>
+<header class="nav"><div class="logo">VM IA</div><nav><a href="biblioteca.html">Biblioteca</a><a href="index.html">Sair</a></nav></header>
+<div class="criacao-container">
+<h1>Crie seu conteúdo</h1>
+<div class="tabs"><button class="tab active" onclick="setTipo('video')">🎬 Vídeo</button><button class="tab" onclick="setTipo('musica')">🎵 Música</button></div>
+<textarea id="prompt" placeholder="Descreva o vídeo ou música que você quer criar... Ex: Um vídeo motivacional sobre foco, com música épica"></textarea>
+<div class="opcoes"><select id="estilo"><option>Estilo Viral TikTok</option><option>Estilo Cinematográfico</option><option>Estilo Lo-fi</option><option>Estilo Funk</option><option>Estilo Trap</option></select>
+<select id="duracao"><option>15s</option><option>30s</option><option>60s</option></select></div>
+<button class="btn-primary full" onclick="gerar()">Gerar com IA ✨</button>
+<div id="resultado" class="resultado"></div>
+</div>
+<script src="js/supabase-config.js"></script><script src="js/criacao.js"></script></body></html>

@@ -1,0 +1,22 @@
+/* ESTRUTURA PRINCIPAL DA BIBLIOTECA */
+.biblioteca-container{max-width:1200px;margin:0 auto;padding:20px;background:#0a0a0a;min-height:100vh;color:#fff}
+.biblioteca-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;padding:20px 0;border-bottom:1px solid #222}
+.biblioteca-header h1{font-size:28px;font-weight:700;background:linear-gradient(90deg,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.biblioteca-filtros{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap}
+.filtro-btn{padding:8px 18px;border-radius:20px;border:1px solid #333;background:#1a1a1a;color:#aaa;cursor:pointer;transition:.3s;font-size:14px}
+.filtro-btn.active,.filtro-btn:hover{background:#a855f7;color:#fff;border-color:#a855f7}
+.videos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.video-card{background:#151515;border-radius:12px;overflow:hidden;border:1px solid #222;transition:.3s;cursor:pointer}
+.video-card:hover{transform:translateY(-5px);border-color:#a855f7;box-shadow:0 10px 30px rgba(168,85,247,.2)}
+.video-thumb{width:100%;height:160px;background:#222;position:relative;display:flex;align-items:center;justify-content:center;font-size:40px}
+.video-thumb img{width:100%;height:100%;object-fit:cover}
+.video-info{padding:15px}
+.video-info h3{font-size:15px;margin-bottom:8px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.video-meta{display:flex;justify-content:space-between;font-size:12px;color:#888}
+.video-actions{display:flex;gap:8px;margin-top:12px}
+.btn-action{flex:1;padding:6px;border-radius:6px;border:none;font-size:12px;cursor:pointer}
+.btn-baixar{background:#a855f7;color:#fff}
+.btn-excluir{background:#222;color:#ff4444;border:1px solid #333}
+.biblioteca-vazia{text-align:center;padding:80px 20px;color:#666}
+.biblioteca-vazia h2{font-size:20px;margin-bottom:10px}
+@media(max-width:768px){.videos-grid{grid-template-columns:1fr 1fr;gap:12px}.biblioteca-header{flex-direction:column;gap:15px;align-items:flex-start}}

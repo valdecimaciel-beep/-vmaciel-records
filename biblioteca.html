@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Biblioteca - VM IA</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/biblioteca.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
+<body>
+<header class="nav"><div class="logo">VM IA</div><nav><a href="criacao.html">Criar</a><a href="index.html">Início</a></nav></header>
+<div class="biblioteca-container">
+<div class="biblioteca-header"><h1>Sua Biblioteca</h1><span id="total">0 itens</span></div>
+<div class="biblioteca-filtros"><button class="filtro-btn active" onclick="filtrar('todos')">Todos</button><button class="filtro-btn" onclick="filtrar('video')">Vídeos</button><button class="filtro-btn" onclick="filtrar('musica')">Músicas</button></div>
+<div id="grid" class="videos-grid"></div>
+<div id="vazio" class="biblioteca-vazia"><h2>Nenhum conteúdo ainda</h2><p>Vá em Criação e gere seu primeiro vídeo ou música</p><a href="criacao.html" class="btn-primary">Criar agora</a></div>
+</div>
+<script src="js/supabase-config.js"></script><script src="js/biblioteca.js"></script></body></html>
