@@ -1,0 +1,1 @@
+// seu script.js com traduções
