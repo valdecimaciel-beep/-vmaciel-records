@@ -1,19 +1,32 @@
-let tipoAtual='video';
-function setTipo(t){tipoAtual=t; document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active')); event.target.classList.add('active');}
-async function gerar(){
- const prompt=document.getElementById('prompt').value;
- if(!prompt){alert('Descreva o que quer criar!');return;}
- const resDiv=document.getElementById('resultado');
- resDiv.classList.add('show');
- resDiv.innerHTML='⏳ Gerando seu '+tipoAtual+' com IA...';
- // Simula geração e salva no localStorage + Supabase
- setTimeout(async()=>{
-   const item={id:Date.now(),tipo:tipoAtual,prompt:prompt,estilo:document.getElementById('estilo').value,data:new Date().toLocaleDateString()};
-   let lista=JSON.parse(localStorage.getItem('vmia_biblioteca')||'[]');
-   lista.unshift(item);
-   localStorage.setItem('vmia_biblioteca',JSON.stringify(lista));
-   // Tenta salvar no Supabase se configurado
-   try{ if(SUPABASE_URL.includes('supabase.co') && !SUPABASE_URL.includes('SEU_PROJETO')){ await supabaseClient.from('conteudos').insert([item]); } }catch(e){}
-   resDiv.innerHTML='<h3>✅ '+tipoAtual+' criado!</h3><p><b>Prompt:</b> '+prompt+'</p><p>Salvo na sua biblioteca</p><a href="biblioteca.html" class="btn-primary" style="margin-top:10px;display:inline-block">Ver Biblioteca</a>';
- },1500);
+// BIBLIOTECA DO USUÁRIO - VM IA (ÁREA LOGADA)
+document.addEventListener("DOMContentLoaded", async () => {
+    if (!window.supabase) return;
+
+    // Verifica sessão ativa
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    const userId = session.user.id;
+    carregarBiblioteca(userId);
+});
+
+async function carregarBiblioteca(userId) {
+    try {
+        // Busca as músicas salvas na tabela 'musicas' filtrando pelo ID do usuário
+        const { data, error } = await window.supabase
+            .from('musicas')
+            .select('*')
+            .eq('user_id', userId);
+
+        if (error) throw error;
+
+        console.log("Músicas carregadas com sucesso:", data);
+        // Lógica visual para renderizar as músicas na tela (HTML) aqui abaixo
+        
+    } catch (error) {
+        console.error("Erro ao carregar biblioteca:", error.message);
+    }
 }
