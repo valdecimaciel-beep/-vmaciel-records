@@ -38,27 +38,27 @@ const translations = {
     },
     es: {
         current: "🇪🇸 ES | € EUR", home: "Inicio", features: "Características", pricing: "Precios", login: "Iniciar Sesión",
-        heroTitle: 'Crea, publica y gana dinero con tu música <span class="highlight">con IA</span>',
-        heroSubtitle: "La estructura más rápida y sencilla para transformar tus ideas en pistas de alta calidad.",
+        heroTitle: 'Crea, publica y gana dinheiro con tu música <span class="highlight">con IA</span>',
+        heroSubtitle: "La estructura más rápida y sencilla para transformar tus ideas en pistas de alta qualidade.",
         btnStart: "Empezar Gratis", playerGenre: "Género: Lo-Fi", btnDownload: "Descargar MP3",
         pricingTitle: "Elige tu plan", badgePopular: "Popular",
         planFreeTitle: "Gratis", planFreePrice: "€ 0<span>/mes</span>", btnFree: "Empezar",
         planProTitle: "Plan Pro", planProPrice: "€ 5.49<span>/mes</span>", btnPro: "Suscribirse Pro",
         planStudioTitle: "Estudio", planStudioPrice: "€ 18.49<span>/mes</span>", btnStudio: "Contratar",
-        fFree1: "5 canciones al mes", fFree2: "Calidad estándar (MP3)", fFree3: "Uso no comercial",
+        fFree1: "5 canciones al mes", fFree2: "Calidad estándar (MP3)", fFree3: "Uso não comercial",
         fPro1: "Canciones ilimitadas", fPro2: "Alta calidad (WAV)", fPro3: "Derechos comerciales incluidos",
         fStudio1: "Acceso completo a la API", fStudio2: "Soporte prioritario 24/7", fStudio3: "Aislamiento de pistas (Stems)",
-        featuresTitle: "¿Por qué crear con nuestra IA?",
+        featuresTitle: "¿Por qué criar con nuestra IA?",
         featCard1Title: "Generación Instantánea", featCard1Desc: "Crea canciones completas, arreglos y beats exclusivos en menos de 30 segundos.",
         featCard2Title: "100% Libre de Regalías", featCard2Desc: "Todas las pistas generadas son libres de derechos. Publica en Spotify o YouTube sin problemas.",
-        featCard3Title: "Calidad de Estudio", featCard3Desc: "Exporta tus proyectos en archivos WAV de alta fidelidad con pistas aisladas."
+        featCard3Title: "Calidad de Estudio", featCard3Desc: "Exporta tus proyectos en arquivos WAV de alta fidelidade con pistas aisladas."
     },
     fr: {
         current: "🇫🇷 FR | € EUR", home: "Accueil", features: "Fonctionnalités", pricing: "Tarifs", login: "Connexion",
         heroTitle: 'Créez, publiez et gagnez de l\'argent avec votre musique <span class="highlight">via l\'IA</span>',
         heroSubtitle: "La structure la plus rapide et la plus simple pour transformer vos idées en morceaux de haute qualité.",
-        btnStart: "Commencer Gratuitement", playerGenre: "Genre: Lo-Fi", btnDownload: "Télécharger MP3",
-        pricingTitle: "Choisissez votre forfait", badgePopular: "Populaire",
+        btnStart: "Commencer Gratuitement", playerGenre: "Genre: Lo-Fi", badgePopular: "Populaire",
+        pricingTitle: "Choisissez votre forfait", btnDownload: "Télécharger MP3",
         planFreeTitle: "Gratuit", planFreePrice: "€ 0<span>/mois</span>", btnFree: "Commencer",
         planProTitle: "Forfait Pro", planProPrice: "€ 5.49<span>/mois</span>", btnPro: "S'abonner au Pro",
         planStudioTitle: "Studio", planStudioPrice: "€ 18.49<span>/mois</span>", btnStudio: "Acheter",
@@ -105,26 +105,53 @@ function changeLanguage(lang) {
     setText("feat-pro-2", t.fPro2);
     setText("feat-pro-3", t.fPro3);
     setText("feat-studio-1", t.fStudio1);
-    setText("feat-studio-2", t.fStudio2);
-    setText("feat-studio-3", t.fStudio3);
-    setText("features-title", t.featuresTitle);
-    setText("feat-card-title-1", t.featCard1Title);
-    setText("feat-card-desc-1", t.featCard1Desc);
-    setText("feat-card-title-2", t.featCard2Title);
-    setText("feat-card-desc-2", t.featCard2Desc);
-    setText("feat-card-title-3", t.featCard3Title);
-    setText("feat-card-desc-3", t.featCard3Desc);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.querySelector('.btn-generate');
-  if(btn) {
-    btn.addEventListener('click', () => {
-      const input = document.querySelector('.input-group input');
-      if(input && input.value.trim()) {
-        const titleEl = document.getElementById('player-track-title');
-        if(titleEl) titleEl.innerText = input.value.substring(0,30);
-      }
-    });
-  }
+// Configuração do clique do botão Entrar
+document.addEventListener("DOMContentLoaded", () => {
+    const loginBtn = document.getElementById("btn-login");
+    if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+            alert("Botão Entrar funcionando! Sistema de login pronto para integração.");
+        });
+    }
 });
+// ==========================================
+// FUNÇÕES DO GERADOR DE MÚSICA (VM IA)
+// ==========================================
+
+function generateAutoTitle() {
+    const titulos = ["Amor de Verão", "Batida do Futuro", "Cyber Sertanejo", "Eco do Grave", "Lofi da Madrugada"];
+    const sorteado = titulos[Math.floor(Math.random() * titulos.length)];
+    const input = document.getElementById("track-title-input");
+    if(input) input.value = sorteado;
+}
+
+function filterStyles() {
+    console.log("Filtrando estilos musicais...");
+    // Função pronta para integração de busca
+}
+
+function selectVoice(elemento, tipoVoz) {
+    const cards = document.querySelectorAll('.voice-card');
+    cards.forEach(card => card.classList.remove('active'));
+    elemento.classList.add('active');
+    console.log("Voz selecionada:", tipoVoz);
+}
+
+function updateBPM(valor) {
+    const bpmVal = document.getElementById("bpm-val");
+    if(bpmVal) bpmVal.innerText = valor;
+}
+
+function triggerMusicGeneration() {
+    const status = document.getElementById("alt-track-status");
+    if(status) {
+        status.style.color = "#FFD700";
+        status.innerText = "✨ IA processando sua música... Aguarde 30 segundos.";
+        setTimeout(() => {
+            status.style.color = "#00FF00";
+            status.innerText = "🎵 Música gerada com sucesso! Player atualizado.";
+        }, 3000);
+    }
+}
