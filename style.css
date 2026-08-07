@@ -40,7 +40,14 @@ nav a:hover { color: #FFD700; }
 .btn-mini { background: transparent; border: 1px solid #333; color: white; padding: 0 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap; }
 .btn-mini.gold { border-color: #FFD700; color: #FFD700; }
 .btn-mini.gold:hover { background: #FFD700; color: #050505; }
-.styles-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0; max-height: 120px; flex-wrap: wrap; }
+
+/* ESTILOS DA LISTA DE 55 GÊNEROS MUSICAIS (ADICIONADO) */
+.styles-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; max-height: 150px; flex-wrap: wrap; border: 1px solid #222; border-radius: 6px; background: #0b0b0b; }
+.style-item-btn { background: #1a1a1a; border: 1px solid #333; color: #A0A0A0; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; min-width: max-content; }
+.style-item-btn:hover { border-color: #FFD700; color: #FFD700; background: rgba(255, 215, 0, 0.02); }
+.style-item-btn.selected { background: #FFD700; color: #050505; border-color: #FFD700; font-weight: bold; }
+
+/* VOZES E CONFIGURAÇÕES */
 .voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .voice-card { background: #1a1a1a; border: 1px solid #333; padding: 12px; text-align: center; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 14px; }
 .voice-card:hover, .voice-card.active { border-color: #FFD700; color: #FFD700; background: rgba(255, 215, 0, 0.02); }
@@ -56,7 +63,7 @@ nav a:hover { color: #FFD700; }
 .feature-card h3 { font-size: 18px; margin-bottom: 10px; }
 .feature-card p { color: #A0A0A0; font-size: 14px; }
 
-/* PREÃ‡OS */
+/* PREÇOS */
 .pricing-section { padding: 80px 8%; text-align: center; }
 .section-title { font-size: 32px; margin-bottom: 50px; font-weight: 700; }
 .pricing-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; align-items: stretch; }
@@ -68,7 +75,7 @@ nav a:hover { color: #FFD700; }
 .price span { font-size: 16px; color: #A0A0A0; font-weight: normal; }
 .plan-features { list-style: none; text-align: left; margin-bottom: 40px; flex: 1; }
 .plan-features li { color: #A0A0A0; font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-.plan-features li::before { content: "âœ“"; color: #FFD700; font-weight: bold; }
+.plan-features li::before { content: "✓"; color: #FFD700; font-weight: bold; }
 .btn-plan-primary { background-color: #FFD700; color: #050505; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; width: 100%; }
 .btn-plan-primary:hover { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
 .btn-plan-secondary { background: transparent; border: 1px solid #333; color: #FFF; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; width: 100%; }
@@ -101,6 +108,3 @@ nav a:hover { color: #FFD700; }
 .footer-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
 .footer-logo { font-size: 20px; font-weight: bold; }
 .footer-logo span { color: #FFD700; }
-.footer-links a { color: #A0A0A0; text-decoration: none; margin-left: 20px; font-size: 14px; transition: 0.3s; }
-.footer-links a:hover { color: #FFD700; }
-.footer-rights { color: #666; font-size: 13px; }
