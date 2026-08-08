@@ -50,7 +50,7 @@ const translations = {
         fStudio1: "Acceso completo a la API", fStudio2: "Soporte prioritario 24/7", fStudio3: "Aislamiento de pistas (Stems)",
         featuresTitle: "¿Por qué criar con nossa IA?",
         featCard1Title: "Generación Instantánea", featCard1Desc: "Crea canciones completas, arreglos y beats exclusivos in menos de 30 segundos.",
-        featCard2Title: "100% Libre de Regalías", featCard2Desc: "Todas las pistas generadas son libres de derechos. Publica en Spotify ou YouTube sin problemas.",
+        featCard2Title: "100% Libre de Regalías", featCard2Desc: "Todas las pistas generadas son libres de direitos. Publica en Spotify ou YouTube sin problemas.",
         featCard3Title: "Calidad de Estudio", featCard3Desc: "Exporta tus projetos en arquivos WAV de alta fidelidade con pistas aisladas."
     },
     fr: {
@@ -107,39 +107,12 @@ function changeLanguage(lang) {
     setText("feat-studio-1", t.fStudio1);
 }
 
-// Inicialização segura dos componentes de Login
+// Configuração simplificada e segura do clique
 document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("btn-login");
-    const loginModal = document.getElementById("login-modal");
-    const closeBtn = document.getElementById("close-login");
-    const loginForm = document.getElementById("login-form");
-
-    if (loginBtn && loginModal) {
-        loginBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            loginModal.classList.add("active");
-        });
-    }
-
-    if (closeBtn && loginModal) {
-        closeBtn.addEventListener("click", () => {
-            loginModal.classList.remove("active");
-        });
-    }
-
-    if (loginModal) {
-        window.addEventListener("click", (e) => {
-            if (e.target === loginModal) {
-                loginModal.classList.remove("active");
-            }
-        });
-    }
-
-    if (loginForm) {
-        loginForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            alert("Sucesso! Conectando com a base de dados do VM IA...");
-            loginModal.classList.remove("active");
+    if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+            alert("Botão Entrar funcionando! Sistema de login pronto para integração com o banco de dados.");
         });
     }
 });
