@@ -1,14 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Biblioteca - VM IA</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/biblioteca.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca - VM IA</title>
+    <!-- Chamadas corrigidas para a raiz (sem pastas fantasmas) -->
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./biblioteca.css">
+    <script src="https://jsdelivr.net"></script>
+</head>
 <body>
-<header class="nav"><div class="logo">VM IA</div><nav><a href="criacao.html">Criar</a><a href="index.html">Início</a></nav></header>
-<div class="biblioteca-container">
-<div class="biblioteca-header"><h1>Sua Biblioteca</h1><span id="total">0 itens</span></div>
-<div class="biblioteca-filtros"><button class="filtro-btn active" onclick="filtrar('todos')">Todos</button><button class="filtro-btn" onclick="filtrar('video')">Vídeos</button><button class="filtro-btn" onclick="filtrar('musica')">Músicas</button></div>
-<div id="grid" class="videos-grid"></div>
-<div id="vazio" class="biblioteca-vazia"><h2>Nenhum conteúdo ainda</h2><p>Vá em Criação e gere seu primeiro vídeo ou música</p><a href="criacao.html" class="btn-primary">Criar agora</a></div>
-</div>
-<script src="js/supabase-config.js"></script><script src="js/biblioteca.js"></script></body></html>
+    <header class="navbar">
+        <div class="logo">VM<span>IA</span></div>
+        <nav>
+            <a href="./index.html">Início</a>
+            <a href="./index.html#generator">Criar Música</a>
+        </nav>
+    </header>
+
+    <div class="biblioteca-container">
+        <div class="biblioteca-header">
+            <h1>Sua <span>Biblioteca</span></h1>
+            <span id="total">0 itens</span>
+        </div>
+        
+        <div class="biblioteca-filtros">
+            <button class="filtro-btn active" onclick="filtrar('todos')">Todos</button>
+            <button class="filtro-btn" onclick="filtrar('video')">Vídeos</button>
+            <button class="filtro-btn" onclick="filtrar('musica')">Músicas</button>
+        </div>
+
+        <div id="grid" class="videos-grid"></div>
+        
+        <div id="vazio" class="biblioteca-vazia">
+            <h2>Nenhum conteúdo ainda</h2>
+            <p>Vá para o painel gerador e crie sua primeira música com IA.</p>
+            <a href="./index.html#generator" class="btn-main" style="display: inline-block; margin-top: 20px; text-decoration: none;">Criar agora</a>
+        </div>
+    </div>
+
+    <!-- Chamadas de script corrigidas soltas na raiz -->
+    <script src="./supabase-config.js"></script>
+    <script src="./biblioteca.js"></script>
+</body>
+</html>
