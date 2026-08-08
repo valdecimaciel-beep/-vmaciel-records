@@ -1,9 +1,9 @@
 /* VM PROJECT - Tema Preto/Ouro - Otimizado Netlify - FINAL COMPLETO */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { background-color: #050505; color: #FFFFFF; min-height: 100vh; line-height: 1.6; padding-bottom: 110px; }
+body { background-color: #050505; color: #FFFFFF; min-height: 100vh; line-height: 1.6; padding-bottom: 140px; position: relative; }
 
 /* NAVBAR */
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; border-bottom: 1px solid #1a1a1a; }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; border-bottom: 1px solid #1a1a1a; background-color: #050505; }
 .logo { font-size: 24px; font-weight: bold; letter-spacing: 1px; }
 .logo span { color: #FFD700; }
 nav { display: flex; align-items: center; }
@@ -21,19 +21,19 @@ nav a:hover { color: #FFD700; }
 .lang-dropdown button:hover { background-color: #121212; color: #FFD700; }
 
 /* HERO */
-.hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 10%; }
+.hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 10% 40px 10%; }
 .hero h1 { font-size: 48px; max-width: 800px; margin-bottom: 20px; line-height: 1.2; }
 .hero .highlight { color: #FFD700; }
 .hero p { color: #A0A0A0; font-size: 18px; max-width: 600px; margin-bottom: 40px; }
 .btn-main { background-color: #FFD700; color: #050505; border: none; padding: 16px 36px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); transition: 0.3s; }
 .btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4); }
 
-/* GERADOR EXTENDED */
-.generator-section { display: flex; justify-content: center; padding: 40px 10%; }
-.generator-extended { background-color: #121212; border: 1px solid #222; width: 100%; max-width: 700px; padding: 30px; border-radius: 12px; transition: 0.3s; }
+/* SEÇÃO DO GERADOR GERAL */
+.generator-section { display: flex; justify-content: center; padding: 40px 10%; background-color: #050505; }
+.generator-extended { background-color: #121212; border: 1px solid #222; width: 100%; max-width: 700px; padding: 30px; border-radius: 12px; transition: 0.3s; position: relative; }
 .generator-extended:hover { border-color: #FFD700; }
-.selected-style-bar { background: #1a1a1a; padding: 10px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #FFD700; font-size: 14px; }
-.field-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+.selected-style-bar { background: #1a1a1a; padding: 10px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #FFD700; font-size: 14px; text-align: left; }
+.field-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
 .field-group label { font-size: 14px; color: #A0A0A0; font-weight: 500; }
 .field-group input, .field-group textarea { background-color: #1a1a1a; border: 1px solid #333; color: white; padding: 12px; border-radius: 6px; font-size: 15px; outline: none; width: 100%; transition: 0.2s; }
 .field-group input:focus, .field-group textarea:focus { border-color: #FFD700; }
@@ -41,30 +41,30 @@ nav a:hover { color: #FFD700; }
 .btn-mini.gold { border-color: #FFD700; color: #FFD700; }
 .btn-mini.gold:hover { background: #FFD700; color: #050505; }
 
-/* ESTILOS DA LISTA DE 55 GÊNEROS MUSICAIS (ADICIONADO) */
-.styles-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; max-height: 150px; flex-wrap: wrap; border: 1px solid #222; border-radius: 6px; background: #0b0b0b; }
-.style-item-btn { background: #1a1a1a; border: 1px solid #333; color: #A0A0A0; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; min-width: max-content; }
+/* RECONSTRUÇÃO COMPLETA DA LISTA DE ESTILOS */
+.styles-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 12px; max-height: 160px; flex-wrap: wrap; border: 1px solid #222; border-radius: 6px; background: #0b0b0b; width: 100%; margin-top: 5px; }
+.style-item-btn { background: #1a1a1a; border: 1px solid #333; color: #A0A0A0; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s; min-width: max-content; height: fit-content; }
 .style-item-btn:hover { border-color: #FFD700; color: #FFD700; background: rgba(255, 215, 0, 0.02); }
 .style-item-btn.selected { background: #FFD700; color: #050505; border-color: #FFD700; font-weight: bold; }
 
-/* VOZES E CONFIGURAÇÕES */
-.voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+/* SELEÇÃO DE VOZES */
+.voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
 .voice-card { background: #1a1a1a; border: 1px solid #333; padding: 12px; text-align: center; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 14px; }
 .voice-card:hover, .voice-card.active { border-color: #FFD700; color: #FFD700; background: rgba(255, 215, 0, 0.02); }
 .btn-generate-main { background-color: #FFD700; color: #050505; border: none; padding: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; transition: 0.2s; }
 .btn-generate-main:hover { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
 
 /* RECURSOS */
-.features-section { padding: 80px 8% 40px 8%; text-align: center; }
+.features-section { padding: 60px 8% 40px 8%; text-align: center; background-color: #050505; }
 .features-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px; }
-.feature-card { background: #121212; border: 1px solid #222; padding: 30px; border-radius: 12px; max-width: 300px; text-align: left; transition: 0.3s; }
+.feature-card { background: #121212; border: 1px solid #222; padding: 30px; border-radius: 12px; width: 100%; max-width: 300px; text-align: left; transition: 0.3s; }
 .feature-card:hover { border-color: #FFD700; }
 .feature-icon { font-size: 32px; margin-bottom: 15px; color: #FFD700; }
 .feature-card h3 { font-size: 18px; margin-bottom: 10px; }
 .feature-card p { color: #A0A0A0; font-size: 14px; }
 
 /* PREÇOS */
-.pricing-section { padding: 80px 8%; text-align: center; }
+.pricing-section { padding: 60px 8%; text-align: center; background-color: #050505; }
 .section-title { font-size: 32px; margin-bottom: 50px; font-weight: 700; }
 .pricing-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; align-items: stretch; }
 .price-card { background-color: #121212; border: 1px solid #222; border-radius: 12px; padding: 40px 30px; width: 100%; max-width: 320px; display: flex; flex-direction: column; position: relative; transition: 0.3s; }
@@ -81,9 +81,9 @@ nav a:hover { color: #FFD700; }
 .btn-plan-secondary { background: transparent; border: 1px solid #333; color: #FFF; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; width: 100%; }
 .btn-plan-secondary:hover { border-color: #FFD700; color: #FFD700; }
 
-/* PLAYER FLUTUANTE */
-.music-player { position: fixed; bottom: 20px; left: 5%; right: 5%; background-color: #121212; border: 1px solid #222; border-radius: 12px; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.7); z-index: 999; }
-.player-track-info { display: flex; align-items: center; gap: 12px; min-width: 200px; }
+/* PLAYER FLUTUANTE DE ÁUDIO FIXADO CORRETAMENTE */
+.music-player { position: fixed; bottom: 0; left: 0; right: 0; background-color: #121212; border-top: 1px solid #222; padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8); z-index: 999; }
+.player-track-info { display: flex; align-items: center; gap: 12px; min-width: 200px; text-align: left; }
 .track-cover { width: 48px; height: 48px; background-color: #1a1a1a; border: 1px solid #FFD700; border-radius: 6px; }
 .track-text h4 { font-size: 14px; color: #FFF; margin-bottom: 4px; }
 .track-text p { font-size: 12px; color: #A0A0A0; }
@@ -104,7 +104,3 @@ nav a:hover { color: #FFD700; }
 .volume-slider { accent-color: #FFD700; width: 80px; cursor: pointer; }
 
 /* FOOTER SITE */
-.site-footer { background: #050505; border-top: 1px solid #1a1a1a; padding: 30px 8%; margin-top: 40px; }
-.footer-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-.footer-logo { font-size: 20px; font-weight: bold; }
-.footer-logo span { color: #FFD700; }
