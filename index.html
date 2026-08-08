@@ -2,14 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>VM - Sua Plataforma de Música IA</title>
-<!-- Caminho corrigido com ./ para o GitHub Pages achar seu design -->
+<title>VM IA - Sua Plataforma de Música IA</title>
+<meta name="description" content="Crie músicas completas com IA em 30s. 55 estilos, vozes reais, WAV e 100% royalty-free. Comece grátis.">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <header class="navbar">
 <div class="logo">VM<span>IA</span></div>
-<nav><a href="#" id="nav-home">Início</a><a href="#" id="nav-features">Recursos</a><a href="#" id="nav-pricing">Planos</a></nav>
+<nav><a href="#top" id="nav-home">Início</a><a href="#features" id="nav-features">Recursos</a><a href="#pricing" id="nav-pricing">Planos</a></nav>
 <div class="nav-right">
 <div class="lang-selector"><button class="lang-btn" id="active-lang">🇧🇷 PT | R$ BRL</button>
 <div class="lang-dropdown">
@@ -21,22 +21,24 @@
 <button class="btn-nav" id="btn-login">Entrar</button></div>
 </header>
 
-<section class="hero">
+<section class="hero" id="top">
 <h1 id="hero-title">Crie, publique e lucre com suas músicas <span class="highlight">usando IA</span></h1>
-<p id="hero-subtitle">A estrutura mais rápida e fácil para transformar suas ideias em faixas de alta qualidade.</p>
+<p id="hero-subtitle">A estrutura mais rápida e fácil para transformar suas ideias em faixas de alta qualidade. Sem estúdio, sem limites.</p>
 <button class="btn-main" id="btn-start">Começar de Graça</button>
+<div class="hero-micro">Sem cartão • 3 músicas grátis • MP3/WAV</div>
 </section>
 
-<section class="generator-section">
+<section class="generator-section" id="generator">
+<div class="generator-layout">
 <div class="generator-extended">
 <div class="selected-style-bar"><strong>Estilo selecionado:</strong> <span id="current-style">Nenhum</span></div>
 
 <div class="field-group"><label>Título da faixa</label>
-<div style="display:flex;gap:8px"><input id="track-title-input" placeholder="Ex: Amor de Verão"><button class="btn-mini gold" onclick="generateAutoTitle()">Gerar Título ✨</button></div>
+<div style="display:flex;gap:8px"><input id="track-title-input" placeholder="Ex: Amor de Verão"><button class="btn-mini gold" id="btn-gen-title">Gerar Título ✨</button></div>
 </div>
 
 <div class="field-group"><label>Buscar estilo (55 disponíveis)</label>
-<input id="search-style" class="search-style" placeholder="Digite: sertanejo, funk, lofi..." oninput="filterStyles()">
+<input id="search-style" class="search-style" placeholder="Digite: sertanejo, funk, lofi...">
 <div id="styles-container" class="styles-scroll"></div>
 </div>
 
@@ -45,63 +47,87 @@
 
 <div class="field-group"><label>Voz</label>
 <div class="voice-grid">
-<div class="voice-card active" onclick="selectVoice(this,'padrao')">Padrão</div>
-<div class="voice-card" onclick="selectVoice(this,'masculina')">Masculina</div>
-<div class="voice-card" onclick="selectVoice(this,'feminina')">Feminina</div>
+<div class="voice-card active" data-voice="padrao">Padrão</div>
+<div class="voice-card" data-voice="masculina">Masculina</div>
+<div class="voice-card" data-voice="feminina">Feminina</div>
 </div></div>
 
 <div class="field-group"><label>BPM: <span id="bpm-val">90</span></label>
-<div class="bpm-row"><input type="range" id="bpm-slider" min="60" max="180" value="90" oninput="updateBPM(this.value)" style="flex:1;accent-color:#FFD700"></div></div>
+<div class="bpm-row"><input type="range" id="bpm-slider" min="60" max="180" value="90"></div></div>
+</div>
 
-<div id="alt-track-status" style="margin-top:12px;min-height:20px"></div>
-<button class="btn-generate-main" onclick="triggerMusicGeneration()">✨ Gerar Música com IA</button>
+<div class="generator-side">
+<div class="preview-card">
+<h3>Status</h3>
+<div id="alt-track-status" class="status-box">Aguardando criação...</div>
+<div class="tips-box">
+<h4>💡 Dicas de ouro</h4>
+<ul>
+<li>Combine Piseiro + Bossa = viral no TikTok</li>
+<li>Letra curta = mais criatividade da IA</li>
+<li>BPM 90-100 funciona pra sofrência</li>
+</ul>
+</div>
+<div class="credits">3 créditos grátis restantes hoje</div>
+<button class="btn-generate-main" id="btn-generate">✨ Gerar Música com IA</button>
+</div>
+</div>
 </div>
 </section>
 
-<section class="features-section">
+<section class="features-section" id="features">
 <h2 class="section-title" id="features-title">Por que criar com nossa IA?</h2>
 <div class="features-grid">
-<div class="feature-card"><div class="feature-icon">⚡</div><h3 id="feat-card-title-1">Geração Instantânea</h3><p id="feat-card-desc-1">Crie músicas completas em menos de 30 segundos.</p></div>
-<div class="feature-card"><div class="feature-icon">🛡</div><h3 id="feat-card-title-2">100% Royalty-Free</h3><p id="feat-card-desc-2">Todas as faixas livres de direitos.</p></div>
-<div class="feature-card"><div class="feature-icon">🎚</div><h3 id="feat-card-title-3">Qualidade de Estúdio</h3><p id="feat-card-desc-3">Exporte em WAV com stems isolados.</p></div>
+<div class="feature-card"><div class="feature-icon">⚡</div><h3>Geração Instantânea</h3><p>Crie músicas completas em menos de 30 segundos.</p></div>
+<div class="feature-card"><div class="feature-icon">🛡</div><h3>100% Royalty-Free</h3><p>Todas as faixas livres de direitos. Seu lucro é 100% seu.</p></div>
+<div class="feature-card"><div class="feature-icon">🎚</div><h3>Qualidade de Estúdio</h3><p>Exporte em WAV com stems isolados, pronto pra Spotify.</p></div>
 </div>
 </section>
 
-<section class="pricing-section">
-<h2 class="section-title" id="pricing-title">Escolha o seu plano</h2>
+<section class="pricing-section" id="pricing">
+<h2 class="section-title">Escolha o seu plano</h2>
 <div class="pricing-grid">
-<div class="price-card"><h3 id="plan-free-title">Gratuito</h3><div class="price" id="plan-free-price">R$ 0<span>/mês</span></div>
-<ul class="plan-features"><li id="feat-free-1">5 músicas por mês</li><li id="feat-free-2">MP3</li><li id="feat-free-3">Uso não comercial</li></ul><button class="btn-plan-secondary" id="btn-free">Começar</button></div>
-<div class="price-card featured"><div class="badge" id="badge-popular">Popular</div><h3 id="plan-pro-title">Plano Pro</h3><div class="price" id="plan-pro-price">R$ 29<span>/mês</span></div>
-<ul class="plan-features"><li id="feat-pro-1">Ilimitadas</li><li id="feat-pro-2">WAV</li><li id="feat-pro-3">Comercial</li></ul><button class="btn-plan-primary" id="btn-pro">Assinar Pro</button></div>
-<div class="price-card"><h3 id="plan-studio-title">Estúdio</h3><div class="price" id="plan-studio-price">R$ 99<span>/mês</span></div>
-<ul class="plan-features"><li id="feat-studio-1">API</li><li id="feat-studio-2">Suporte 24/7</li><li id="feat-studio-3">Stems</li></ul><button class="btn-plan-secondary" id="btn-studio">Contratar</button></div>
+<div class="price-card"><h3>Gratuito</h3><div class="price">R$ 0<span>/mês</span></div>
+<ul class="plan-features"><li>5 músicas por mês</li><li>MP3 320kbps</li><li>Uso não comercial</li></ul><button class="btn-plan-secondary btn-open-login">Começar</button></div>
+<div class="price-card featured"><div class="badge">Popular</div><h3>Plano Pro</h3><div class="price">R$ 29<span>/mês</span></div>
+<ul class="plan-features"><li>50 músicas/mês</li><li>WAV + Stems</li><li>Licença Comercial</li></ul><button class="btn-plan-primary btn-open-login">Assinar Pro</button></div>
+<div class="price-card"><h3>Estúdio</h3><div class="price">R$ 99<span>/mês</span></div>
+<ul class="plan-features"><li>Ilimitado</li><li>API + Suporte 24/7</li><li>Stems + Voz clonada</li></ul><button class="btn-plan-secondary btn-open-login">Contratar</button></div>
 </div>
 </section>
 
+<!-- PLAYER -->
 <footer class="music-player">
-<div class="player-track-info"><div class="track-cover"></div><div class="track-text"><h4 id="player-track-title">Minha Faixa IA #1</h4><p id="player-track-genre">Gênero: Lo-Fi</p></div></div>
-<div class="player-controls"><div class="control-buttons"><button class="btn-icon">⏮</button><button class="btn-play-pause">▶</button><button class="btn-icon">⏭</button></div>
-<div class="progress-container"><span class="time">0:00</span><div class="progress-bar"><div class="progress-current"></div></div><span class="time">2:30</span></div></div>
+<div class="player-track-info"><div class="track-cover" id="track-cover">♪</div><div class="track-text"><h4 id="player-track-title">Minha Faixa IA #1</h4><p id="player-track-genre">Gênero: Lo-Fi</p></div></div>
+<div class="player-controls"><div class="control-buttons"><button class="btn-icon">⏮</button><button class="btn-play-pause" id="btn-play">▶</button><button class="btn-icon">⏭</button></div>
+<div class="progress-container"><span class="time" id="time-current">0:00</span><div class="progress-bar" id="progress-bar"><div class="progress-current" id="progress-current"></div></div><span class="time">2:30</span></div></div>
 <div class="player-actions"><button class="btn-player-action" id="btn-download">Baixar MP3</button><div class="volume-container"><span>🔊</span><input type="range" class="volume-slider" min="0" max="100" value="80"></div></div>
 </footer>
 
 <footer class="site-footer">
-    <div class="footer-container">
-        <div class="footer-logo">VM<span>IA</span></div>
-        <div class="footer-links">
-            <a href="#" id="footer-terms">Termos de Uso</a>
-            <a href="#" id="footer-privacy">Política de Privacidade</a>
-        </div>
-        <div class="footer-rights">
-            <span id="footer-copy">© 2026 VM IA. Todos os direitos reservados.</span>
-        </div>
-    </div>
+<div class="footer-container">
+<div class="footer-logo">VM<span>IA</span></div>
+<div class="footer-links"><a href="#">Termos de Uso</a><a href="#">Política de Privacidade</a></div>
+<div class="footer-rights"><span>© 2026 VM IA. Todos os direitos reservados.</span></div>
+</div>
 </footer>
 
-<!-- Chamadas dos scripts corrigidas com ./ para o GitHub Pages ler corretamente -->
-<script src="./script.js?v=3"></script>
-<script src="./generator.js?v=3"></script>
+<!-- LOGIN MODAL -->
+<div id="login-modal" class="modal-overlay">
+<div class="modal-card">
+<button class="modal-close" id="modal-close">✕</button>
+<h2>Bem-vindo de volta</h2>
+<p class="modal-sub">Entre para continuar criando hits</p>
+<div class="field-group"><label>Email</label><input id="login-email" type="email" placeholder="seu@email.com"></div>
+<div class="field-group"><label>Senha</label><input id="login-pass" type="password" placeholder="••••••••"><a href="#" class="forgot">Esqueci minha senha</a></div>
+<button class="btn-generate-main" id="btn-do-login">Entrar</button>
+<div class="divider"><span>OU</span></div>
+<button class="btn-plan-secondary" id="btn-google">Continuar com Google</button>
+<div class="modal-footer">Não tem conta? <a href="#" class="gold">Criar conta grátis</a></div>
+</div>
+</div>
 
+<script src="./generator.js"></script>
+<script type="module" src="./script.js"></script>
 </body>
 </html>
