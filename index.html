@@ -2,93 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VMaciel Studio - Crie e publique suas músicas</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-*{font-family:'Inter',sans-serif} .syne{font-family:'Syne',sans-serif}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.marquee-track{animation:marquee 35s linear infinite;width:max-content}
-.wave{animation:wave 0.9s ease-in-out infinite}
-@keyframes wave{0%,100%{height:18%}50%{height:100%}}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VMaciel Studio - Oficial</title>
+<link rel="stylesheet" href="./css/style.css">
 </head>
-<body class="bg-[#0a0a0a] text-white antialiased">
-<header class="fixed top-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5">
-<div class="max-w-[1280px] mx-auto px-6 h-[68px] flex items-center justify-between">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-2"><div class="w-8 h-8 bg-[#FFD700] rounded-lg flex items-center justify-center text-black font-black">M</div><span class="font-bold">VMaciel Studio</span></div>
-<nav class="hidden md:flex gap-6 text-sm text-white/60"><a href="#" class="hover:text-white">Criar</a><a href="#recursos" class="hover:text-white">Recursos ▾</a><a href="#artistas" class="hover:text-white">Artistas</a><a href="#" class="hover:text-white">Preços</a></nav>
-</div>
-<div class="flex items-center gap-3">
-<button class="hidden md:flex items-center gap-2 text-xs border border-white/10 rounded-full px-3 py-1.5"><span>🌐</span> BR | R$</button>
-<a href="#" class="text-sm px-4 py-2 rounded-full border border-white/10">Entrar</a>
-<a href="#" class="text-sm px-5 py-2 rounded-full bg-[#FFD700] text-black font-semibold">Começar agora →</a>
-</div>
-</div>
-</header>
-
-<section class="pt-20 border-y border-white/5 bg-[#101010]">
-<div class="overflow-hidden py-3">
-<div class="marquee-track flex items-center gap-10"><span class="text-[10px] tracking-[0.2em] text-[#FFD700]">DISTRIBUÍMOS PARA</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">Amazon Music</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">Deezer</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">Tidal</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">Instagram</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">Spotify</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">Apple Music</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">YouTube Music</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">TikTok</span><span class="text-sm text-white/40">•</span><span class="text-[10px] tracking-[0.2em] text-[#FFD700] ml-10">DISTRIBUÍMOS PARA</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">Amazon Music</span><span class="text-sm text-white/40">•</span><span class="text-sm text-white/60">Deezer</span></div>
-</div>
-</section>
-
-<section class="max-w-[1280px] mx-auto px-6 py-16">
-<div class="flex items-center gap-2 mb-12"><div class="w-1.5 h-1.5 bg-[#FFD700] rounded-full"></div><p class="text-[11px] tracking-[0.2em] text-[#FFD700]">VMACIEL EM NÚMEROS</p></div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-10">
-<div><div class="syne text-4xl md:text-5xl font-extrabold">47K<span class="text-[#FFD700]">+</span></div><p class="text-sm text-white/40 mt-2">Artistas ativos</p></div>
-<div><div class="syne text-4xl md:text-5xl font-extrabold">128K<span class="text-[#FFD700]">+</span></div><p class="text-sm text-white/40 mt-2">Músicas criadas</p></div>
-<div><div class="syne text-4xl md:text-5xl font-extrabold">85M<span class="text-[#FFD700]">+</span></div><p class="text-sm text-white/40 mt-2">Plays totais</p></div>
-<div><div class="syne text-4xl md:text-5xl font-extrabold">R$2.4M<span class="text-[#FFD700]">+</span></div><p class="text-sm text-white/40 mt-2">em royalties pagos</p></div>
-</div>
-</section>
-
-<section id="recursos" class="max-w-[1280px] mx-auto px-6 py-10">
-<div class="flex items-center gap-2 mb-6"><div class="w-1.5 h-1.5 bg-[#FFD700] rounded-full"></div><p class="text-[11px] tracking-[0.2em] text-[#FFD700]">RECURSOS</p></div>
-<h2 class="syne text-4xl md:text-[52px] leading-[0.95] font-extrabold max-w-[600px] mb-10">O poder do ecossistema VMaciel em um só lugar.</h2>
-<div class="grid md:grid-cols-3 gap-4">
-<div class="md:col-span-2 relative rounded-[24px] overflow-hidden bg-[#151515] h-[380px] p-8 flex flex-col justify-end"><div class="absolute top-5 left-5 w-9 h-9 bg-black/60 backdrop-blur rounded-full flex items-center justify-center text-[#FFD700]">✦</div><div class="absolute top-5 right-5 bg-black/60 text-[#FFD700] text-[11px] px-3 py-1 rounded-full">01</div><h3 class="text-xl font-bold">Criação com IA</h3><p class="text-sm text-white/50 mt-2 max-w-[380px]">Componha letras, melodias e beats completos. Nossa IA aprende seu estilo e cria junto com você.</p></div>
-<div class="relative rounded-[24px] overflow-hidden bg-[#1a1600] h-[380px] p-8 flex flex-col justify-end"><div class="absolute top-5 left-5 w-9 h-9 bg-black/40 rounded-full flex items-center justify-center text-[#FFD700]">🎧</div><div class="absolute top-5 right-5 bg-black/60 text-[#FFD700] text-[11px] px-3 py-1 rounded-full">02</div><h3 class="text-xl font-bold">Qualidade VMaciel Estúdio</h3><p class="text-sm text-white/50 mt-2">Masterização com a assinatura premiada do nosso estúdio. Som quente, potente e pronto para rádio.</p></div>
-</div>
-<div class="grid md:grid-cols-3 gap-4 mt-4">
-<div class="relative rounded-[24px] overflow-hidden bg-[#151515] h-[340px] p-7 flex flex-col justify-end"><div class="absolute top-5 left-5 w-9 h-9 bg-black/60 rounded-full flex items-center justify-center text-[#FFD700]">🌐</div><div class="absolute top-5 right-5 bg-black/60 text-[#FFD700] text-[11px] px-3 py-1 rounded-full">03</div><h3 class="font-bold">Distribuição Global e Royalties</h3></div>
-<div class="relative rounded-[24px] overflow-hidden bg-[#151515] h-[340px] p-7 flex flex-col justify-end"><div class="absolute top-5 left-5 w-9 h-9 bg-black/60 rounded-full flex items-center justify-center text-[#FFD700]">🎬</div><div class="absolute top-5 right-5 bg-black/60 text-[#FFD700] text-[11px] px-3 py-1 rounded-full">04</div><h3 class="font-bold">Vídeos e Geração de Imagens</h3></div>
-<div class="relative rounded-[24px] overflow-hidden bg-[#191400] h-[340px] p-7 flex flex-col justify-between"><div class="flex justify-between"><div class="w-9 h-9 bg-black/60 rounded-full flex items-center justify-center text-[#FFD700]">👥</div><div class="bg-[#FFD700] text-black text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1">♥ FOTO ESPECIAL</div><div class="bg-black/60 text-[#FFD700] text-[11px] px-3 py-1 rounded-full">05</div></div><div><div class="inline-flex items-center gap-2 bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] text-[10px] px-3 py-1 rounded-full mb-3"><div class="w-1.5 h-1.5 bg-[#FFD700] rounded-full"></div>SEU LUGAR ESPECIAL • ENVIE SUA FOTO</div><h3 class="font-bold text-[#FFD700]">Rede Social</h3></div></div>
-</div>
-</section>
-
-<section id="artistas" class="max-w-[1280px] mx-auto px-6 py-20">
-<div class="flex items-center justify-between"><div class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-[#FFD700] rounded-full"></div><p class="text-[11px] tracking-[0.2em] text-[#FFD700]">ARTISTAS</p></div><a class="text-sm text-white/40 hidden md:block">Ver todos os artistas →</a></div>
-<h2 class="syne text-3xl md:text-5xl font-extrabold mt-4 mb-10">Feita por artistas como você.</h2>
-<div class="rounded-[32px] bg-[#151515] border border-white/5 p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center">
-<div class="w-full md:w-[320px] h-[320px] rounded-[20px] bg-gradient-to-br from-[#2a2400] to-[#1a1600] flex flex-col items-center justify-center relative"><div class="w-20 h-20 bg-black rounded-full flex items-center justify-center text-3xl text-[#FFD700]">♪</div><div class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur rounded-full px-3 py-2 text-[11px] flex items-center gap-2"><div class="w-2 h-2 bg-[#FFD700] rounded-full"></div>TOCANDO AGORA</div></div>
-<div class="flex-1 w-full">
-<div class="flex items-center justify-between"><div><h3 class="text-2xl font-bold">Noite de Neon</h3><p class="text-sm text-white/40 mt-1">LUA • Single • 2024</p></div><button class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center">▶</button></div>
-<div class="flex gap-1 items-end h-[48px] mt-10"><div class="w-1.5 bg-[#FFD700] rounded-full wave" style="height:40%"></div><div class="w-1.5 bg-[#FFD700] rounded-full wave" style="height:80%;animation-delay:.1s"></div><div class="w-1.5 bg-[#FFD700] rounded-full wave" style="height:60%;animation-delay:.2s"></div><div class="w-1.5 bg-[#FFD700] rounded-full wave" style="height:90%;animation-delay:.15s"></div><div class="w-1.5 bg-[#FFD700] rounded-full wave" style="height:30%;animation-delay:.3s"></div><div class="w-1.5 bg-[#FFD700]/30 rounded-full" style="height:20%"></div><div class="w-1.5 bg-[#FFD700]/30 rounded-full" style="height:35%"></div></div>
-<div class="flex justify-between text-[11px] text-white/30 mt-2"><span>0:00</span><span>3:42</span></div>
-<div class="h-1 bg-white/10 rounded-full mt-1"><div class="h-1 w-[38%] bg-[#FFD700] rounded-full"></div></div>
-<div class="flex items-center gap-2 mt-6"><div class="flex -space-x-2"><div class="w-8 h-8 rounded-full bg-white/20 border border-black flex items-center justify-center text-[10px]">A</div><div class="w-8 h-8 rounded-full bg-white/20 border border-black flex items-center justify-center text-[10px]">B</div><div class="w-8 h-8 rounded-full bg-white/20 border border-black flex items-center justify-center text-[10px]">C</div></div><span class="text-xs text-white/40">+2.4k ouvindo agora</span></div>
-</div>
-</div>
-</section>
-
-<section class="py-24 text-center">
-<div class="flex items-center justify-center gap-2 mb-8"><div class="w-1.5 h-1.5 bg-[#FFD700] rounded-full"></div><p class="text-[11px] tracking-[0.2em] text-[#FFD700]">SUA PRÓXIMA MÚSICA</p><div class="w-1.5 h-1.5 bg-[#FFD700] rounded-full"></div></div>
-<h2 class="syne text-4xl md:text-[68px] leading-none font-black"><span class="text-white">"</span><span class="text-[#FFD700]">distribua para o mundo</span><span class="text-white">"</span></h2>
-<div class="flex justify-center gap-1 items-end h-[40px] mt-10"><div class="w-1 bg-[#FFD700] rounded-full wave" style="height:60%"></div><div class="w-1 bg-[#FFD700] rounded-full wave" style="height:30%;animation-delay:.1s"></div><div class="w-1 bg-[#FFD700] rounded-full wave" style="height:80%;animation-delay:.2s"></div><div class="w-1 bg-[#FFD700] rounded-full wave" style="height:40%;animation-delay:.1s"></div></div>
-<a href="#" class="inline-flex mt-8 px-8 py-4 bg-[#FFD700] text-black font-bold rounded-full shadow-[0_0_40px_rgba(255,215,0,0.4)]">Criar minha música agora →</a>
-<p class="text-xs text-white/30 mt-4">Sem cartão • Cancele quando quiser • Comece em 30 segundos</p>
-</section>
-
-<footer class="border-t border-white/5 py-12 max-w-[1280px] mx-auto px-6 grid md:grid-cols-5 gap-10 text-sm">
-<div><div class="flex items-center gap-2 mb-4"><div class="w-8 h-8 bg-[#FFD700] rounded-lg flex items-center justify-center text-black font-black">M</div><span class="font-bold">VMaciel Studio</span></div><p class="text-white/40 text-xs leading-relaxed">O estúdio completo para artistas independentes. Crie, masterize e distribua suas músicas com qualidade profissional.</p></div>
-<div><p class="text-white/20 text-[11px] tracking-widest mb-4">PRODUTO</p><div class="space-y-2 text-white/60"><p>Criação com IA</p><p>Estúdio VMaciel</p><p>Distribuição</p><p>Vídeos e Capas</p></div></div>
-<div><p class="text-white/20 text-[11px] tracking-widest mb-4">ESTÚDIO</p><div class="space-y-2 text-white/60"><p>Sobre nós</p><p>Artistas</p><p>Histórias</p><p>Carreiras</p></div></div>
-<div><p class="text-white/20 text-[11px] tracking-widest mb-4">CONTA</p><div class="space-y-2 text-white/60"><p>Entrar</p><p>Criar conta</p><p>Preços</p><p>Afiliados</p></div></div>
-<div><p class="text-white/20 text-[11px] tracking-widest mb-4">SUPORTE</p><div class="space-y-2 text-white/60"><p>Central de ajuda</p><p>Contato</p><p>Termos</p><p>Privacidade</p></div></div>
-</footer>
-<div class="max-w-[1280px] mx-auto px-6 py-6 flex justify-between text-[11px] text-white/20 border-t border-white/5"><span>© 2025 VMaciel Studio. Todos os direitos reservados.</span><span class="flex items-center gap-2"><span class="w-2 h-2 bg-yellow-500 rounded-full"></span>Todos os sistemas operando</span></div>
+<body>
+<div id="root"></div>
+<script type="module" src="./js/app.js"></script>
 </body>
 </html>
